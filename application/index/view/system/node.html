@@ -1,0 +1,116 @@
+﻿<{include file="head.html"}>
+</head>
+
+<body>
+<{include file="top.html"}>
+
+<div class="main-container container-fluid">
+	<div class="page-container">
+        <{include file="nav_left.html"}>
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  <{$node_name}> </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+       
+            <div class="well" style="margin-bottom:10px; height:55px;">
+                <select class="left"><option value="1">选择</option></select>
+                <button type="button" class="btn btn-danger right">删除</button>
+                <button type="button" class="btn btn-primary right mr10">保存</button>
+                <button type="button" class="btn btn-primary right mr10">新建</button>
+            </div>
+            
+        	<div class="row">
+        		<div class="col-lg-4 col-sm-4 col-xs-12">
+        			<div class="well">
+        				<div class="dd">
+        					<ol class="dd-list">
+        						<li class="dd-item bordered-blue"><div class="dd-handle"><i class="fa fa-angle-right"></i> 公告管理</div></li>
+        						<li class="dd-item"><div class="dd2-content bg-azure"><i class="fa fa-angle-right"></i> 公告管理</div></li>
+        						<li class="dd-item bordered-blue">
+        							<div class="dd-handle"><i class="fa fa-angle-right"></i> 公告管理</div>
+        							<ol class="dd-list">
+        								<li class="dd-item bordered-blue"><div class="dd-handle"><i class="fa fa-angle-right"></i> 公告管理</div></li>
+        								<li class="dd-item bordered-blue"><div class="dd-handle"><i class="fa fa-angle-right"></i> 公告管理</div></li>
+        								<li class="dd-item bordered-blue"><div class="dd-handle"><i class="fa fa-angle-right"></i> 公告管理</div></li>
+        							</ol>
+        						</li>
+        					</ol>
+        				</div>
+        			</div>
+
+        		</div>
+        		<div class="col-lg-8 col-sm-8 col-xs-12">
+        			<div class="well">
+    					<div id="horizontal-form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">节点</label>
+                                    <div class="col-sm-9">
+                                        <span class="input-icon icon-right inverted"><input type="text" class="form-control"><i class="fa fa-indent bg-blue"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">管理</label>
+                                    <div class="col-sm-9">
+                                        <span class="input-icon icon-right"><input type="text" class="form-control"><i class="fa fa-user blue"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">写入/修改</label>
+                                    <div class="col-sm-9">
+                                        <span class="input-icon icon-right"><input type="text" class="form-control"><i class="fa fa-user blue"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">读取</label>
+                                    <div class="col-sm-9">
+                                        <span class="input-icon icon-right"><input type="text" class="form-control"><i class="fa fa-user blue"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">排序</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">状态</label>
+                                    <div class="col-sm-9 ">
+                                        <div class="radio left">
+                                            <label><input name="form-field-radio" type="radio" class="colored-blue"><span class="text"> 开启</span></label>
+                                        </div>
+                                        <div class="radio left">
+                                            <label><input name="form-field-radio" type="radio" class="colored-danger"><span class="text"> 停止</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="<{$APP_URL}>/themes/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="<{$APP_URL}>/themes/js/bootbox.js"></script>
+<script>
+$(document).ready(function(e) {
+
+});
+</script>
+</body>
+</html>

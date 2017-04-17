@@ -1,0 +1,767 @@
+<include file="public/head" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+.blood-span{ line-height: 32px;padding-left:10px;}
+.med_div{ float: left; clear:both; margin-bottom:10px; width:100%;}
+.table-darkorange{width:20px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+    <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户管理 </small><small><i class="fa fa-angle-right"></i>  客户编辑 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+        			<div class="widget" >
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="{:U('Customer/index')}"><i class="widget-icon fa fa-mail-reply blue"></i><span style="float:left; line-height: 25px;">返回列表</a>
+                            
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main ">
+                            	<form role="form" id="form_data" class="form-horizontal">
+                            		<input type="hidden" name="customerid" id="customerid" value="{$customer.id}" />
+                                <div class="tabbable">
+                                    <ul class="nav nav-tabs tabs-flat" id="myTab11">
+                                        <li class="active"><a data-toggle="tab" href="#base">基本信息</a></li>
+                                        <li><a data-toggle="tab" href="#mediacal">病情信息</a></li>
+                                        <li><a data-toggle="tab" href="#publicinfo">标准原则</a></li>
+                                        <li><a data-toggle="tab" href="#otherinfo">其它信息</a></li>
+                                        <li style="float:right; margin-right:2%;">建档号: <span id="casenumber_val">{$customer.casenumber}</span></li>
+                                    </ul>
+                                    <div class="tab-content tabs-flat">
+		                                <input id="casenumber" name="casenumber" type="hidden" value="">
+                                        <div id="base" class="tab-pane in active">
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">姓名：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="realname" name="realname" value="{$customer.realname}" placeholder="" disabled>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">配偶姓名：</label>
+			                                            <div class="col-sm-8"> 
+			                                                <input type="text" class="form-control" id="spousename" name="spousename" value="{$customer.spousename}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">生日 ：</label>
+			                                            <div class="col-sm-8">
+			                                                <div class="input-group">
+				                                                <input class="form-control date-picker" id="birthday" type="text" value="{$customer.birthday}" data-date-format="yyyy-mm-dd">
+				                                                <span class="input-group-addon">
+				                                                    <i class="fa fa-calendar"></i>
+				                                                </span>
+				                                            </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">配偶生日：</label>
+			                                            <div class="col-sm-8"> 
+			                                                <div class="input-group">
+				                                                <input class="form-control date-picker" id="spousebirthday" type="text" value="{$customer.spousebirthday}" data-date-format="yyyy-mm-dd">
+				                                                <span class="input-group-addon">
+				                                                    <i class="fa fa-calendar"></i>
+				                                                </span>
+				                                            </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">年龄：</label>
+			                                            <div class="col-sm-8">
+		                                                    <input type="text" class="form-control" id="age" name="age" value="{$customer.age}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">配偶年龄：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="spouseage" name="spouseage" value="{$customer.spouseage}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">工作单位：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="company" name="company" value="{$customer.company}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">配偶工作单位：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="spousecompany" name="spousecompany" value="{$customer.spousecompany}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">职位：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="occupation" name="occupation" value="{$customer.occupation}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">配偶职位：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="spouseoccupation" name="spouseoccupation" value="{$customer.spouseoccupation}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">联系方式	：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="mobile_tel" name="mobile_tel" value="{$customer.mobile_tel}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">家用电话：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="office_tel" name="office_tel" value="{$customer.office_tel}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">所在省：</label>
+			                                            <div class="col-sm-8">
+			                                                <select class="form-control" id="provinceid" name="provinceid">
+			                                                	<if condition='$customer.provinceid gt 0'><option value="{$customer.provinceid}" selected>{$customer.provincename}</option></if>
+			                                                	<foreach name="province" item="p"><option vlaue="{$p.id}">{$p.name}</option></foreach>
+			                                                </select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">所在市：</label>
+			                                            <div class="col-sm-8">
+			                                                <select class="form-control" id="cityid" name="cityid">
+			                                                	<if condition='$customer.cityid gt 0'><option value="{$customer.cityid}" selected>{$customer.cityname}</option></if>
+			                                                </select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">家庭住址：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="address" name="address" value="{$customer.address}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">直系亲属：</label>
+			                                            <div class="col-sm-8">
+			                                                <input type="text" class="form-control" id="immediatefamily" name="immediatefamily" value="{$customer.immediatefamily}" placeholder="">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">性别	：</label>
+			                                            <div class="col-sm-8">
+			                                                <div class="radio left">
+					                                            <label><input name="sex" id="sex" value="1" type="radio" class="colored-blue" <if condition="$customer.sex eq 1">checked</if> ><span class="text"> 男</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="sex" id="sex" type="radio" value="2" class="colored-danger" <if condition="$customer.sex eq 2">checked</if> ><span class="text"> 女</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6" id="grade_div">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">分型：</label>
+			                                            <div class="col-sm-8"> 
+			                                                <select name="levelid" id="levelid">
+			                                                <foreach name="level" item="g">
+			                                                <option value="{$g.id}" <if condition="$customer.levelid neq 0">selected</if> >{$g.name}</option>
+			                                                </foreach>
+			                                                </select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">备注：</label>
+			                                            <div class="col-sm-8">
+			                                                <textarea class="form-control" rows="6" id="intro" name="intro">{$customer.intro}</textarea>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                </div>
+                                        </div>
+                                        <div id="mediacal" class="tab-pane">
+		                                    <div class="row">
+			                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-2 control-label no-padding-right">会员身体基本状况：</label>
+			                                            <div class="col-sm-9">
+			                                            	<foreach name="mediacal" item="m">
+			                                                <div class="checkbox left"><label><input name="basemediacal" id="basemediacal" value="{$m.id}" type="checkbox" <if condition="$m.istrue eq 1">checked</if> class="colored-blue"><span class="text"> {$m.name}</span></label></div>
+			                                               	</foreach>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-2 control-label no-padding-right">糖尿病史：</label>
+			                                            <div class="col-sm-9">
+			                                                <textarea class="form-control" id="medicalhistory" rows="3" name="medicalhistory">{$customer.medicalhistory}</textarea>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-2 control-label no-padding-right">目前用药：</label>
+			                                            <div class="col-sm-9" id="med_list">
+			                                            	<if condition="$customer.pharmacy neq ''">
+			                                            	<foreach name="pn" item="n" key="k">
+			                                            	<if condition="$n neq ''">
+			                                            	<div class='med_div' data='{$k}'><span class='left blood-span'>药名:</span><input name='pharmacy_name' id='pharmacy_name' value='{$n}' type='text' class='form-control left' style='width:35%;'><span class='left blood-span'>剂量:</span><input name='pharmacy_val' id='pharmacy_val' value='{$pv[$k]}' type='text' class='form-control left' style='width:35%; margin-right:15px;'><button type='button' onclick='del_med({$k})' class='btn btn-danger' ><i class='fa fa-times'></i></button></div>
+			                                            	</if>
+			                                            	</foreach>
+			                                            	</if>
+			                                                <div class="med_div" data="{$pc}"><span class="left blood-span">药名:</span><input name="pharmacy_name" id="pharmacy_name" value="" type="text" class="form-control left" style=" width:35%;"><span class="left blood-span">剂量:</span><input name="pharmacy_val" id="pharmacy_val" value="" type="text" class="form-control left" style=" width:35%; margin-right:15px;"><button type="button" name="add_med" id="add_med" class="btn btn-primary" >增加用药</button></div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+                                        </div>
+                                        <div id="publicinfo" class="tab-pane">
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">六区五柜流程是否完成：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="isflow" id="isflow" value="1" type="radio" class="colored-blue" <if condition="$customer.isflow eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="isflow" id="isflow" type="radio" value="0" class="colored-danger" <if condition="$customer.isflow eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">是否试服糖不甜了：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="issugar" id="issugar" value="1" type="radio" class="colored-blue" <if condition="$customer.issugar eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="issugar" id="issugar" type="radio" value="0" class="colored-danger" <if condition="$customer.issugar eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">对产品是否认可：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="isproduct" id="isproduct" value="1" type="radio" class="colored-blue" <if condition="$customer.isproduct eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="isproduct" id="isproduct" type="radio" value="0" class="colored-danger" <if condition="$customer.isproduct eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">是否对食疗认可：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="istherapy" id="istherapy" value="1" type="radio" class="colored-blue" <if condition="$customer.istherapy eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="istherapy" id="istherapy" type="radio" value="0" class="colored-danger"  <if condition="$customer.istherapy eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">是否做过胰岛功能损伤检测：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="ischeck" id="ischeck" value="1" type="radio" class="colored-blue" <if condition="$customer.ischeck eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="ischeck" id="ischeck" type="radio" value="0" class="colored-danger"  <if condition="$customer.ischeck eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">对糖尿病治疗的欲望是否强烈：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="isintense" id="isintense" value="1" type="radio" class="colored-blue" <if condition="$customer.isintense eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="isintense" id="isintense" type="radio" value="0" class="colored-danger"  <if condition="$customer.isintense eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">是否进行过家访：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="isfollow" id="isfollow" value="1" type="radio" class="colored-blue" <if condition="$customer.isfollow eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="isfollow" id="isfollow" type="radio" value="0" class="colored-danger" <if condition="$customer.isfollow eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">顾客信息是否完整：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="istrue" id="istrue" value="1" type="radio" class="colored-blue" <if condition="$customer.istrue eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="istrue" id="istrue" type="radio" value="0" class="colored-danger" <if condition="$customer.istrue eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-6 control-label no-padding-right">是否有自主权：</label>
+			                                            <div class="col-sm-6">
+			                                                <div class="radio left">
+					                                            <label><input name="righthandle" id="righthandle" value="1" type="radio" class="colored-blue" <if condition="$customer.righthandle eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="righthandle" id="righthandle" type="radio" value="0" class="colored-danger" <if condition="$customer.righthandle eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-2 control-label no-padding-right">参与会议情况：</label>
+			                                            <div class="col-sm-10">
+			                                                <table class="table table-bordered table-hover">
+                                    							<thead><tr><th>参会时间</th><th>会议模式</th><th>讲师</th><th>赠送礼品</th><th>未购原因</th><th>操作</th></tr></thead>
+                                    							<tbody id="meet_list">
+                                    								<foreach name="meet" item="m" key="k">
+																	<tr data='{$k}'><td style="width:20%"><div class="input-group"><input class="form-control date-picker" id="meettime" name="meettime" type="text" data-date-format="yyyy-mm-dd" value="{$m.meettime}"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div></td><td><input type="text" name="meettype" id="meettype1" class="form-control" value="{$m.meettype}"></td><td><input type="text" name="lecturer" id="lecturer1" class="form-control" value="{$m.lecturer}"></td><td><input type="text" name="gift" id="gift1" class="form-control" value="{$m.gift}"></td><td><input type="text" name="errmsg" id="errmsg1" class="form-control" value="{$m.errmsg}"></td><td class="table-darkorange"><a class="btn btn-danger btn-circle btn-xs" onclick="del_meet({$k})"><i class="fa fa-times"></i></a></td></tr>
+																	</foreach>																	
+                                    							</tbody>
+                                							</table>
+                                							<div class="footer" style="margin-top:10px;"><button type="button" id="add_meet" class="btn btn-primary"><i class="fa fa-plus"></i>增加会议情况</button></div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+                                        </div>
+                                        <div id="otherinfo" class="tab-pane">
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">居住地：</label>
+			                                            <div class="col-sm-5">
+			                                                <select class="form-control" id="residence" name="residence"><option value="市区" <if condition="$customer.residence eq '市区'">selected</if> >市区</option><option value="城郊" <if condition="$customer.residence eq '城郊'">selected</if> >城郊</option><option value="下县" <if condition="$customer.residence eq '下县'">selected</if> >下县</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">住所：</label>
+			                                            <div class="col-sm-5">
+				                                            <select class="form-control" id="domicile" name="domicile"><option value="高档" <if condition="$customer.domicile eq '高档'">selected</if> >高档</option><option value="中档" <if condition="$customer.domicile eq '中档'">selected</if> >中档</option><option value="低档" <if condition="$customer.domicile eq '低档'">selected</if> >低档</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">阶层：</label>
+			                                            <div class="col-sm-5">
+			                                                <select class="form-control" id="hierarchy" name="hierarchy"><option value="在职" <if condition="$customer.hierarchy eq '在职'">selected</if> >在职</option><option value="退休" <if condition="$customer.hierarchy eq '退休'">selected</if> >退休</option><option value="干部" <if condition="$customer.hierarchy eq '干部'">selected</if> >干部</option><option value="职工" <if condition="$customer.hierarchy eq '职工'">selected</if> >职工</option><option value="教师" <if condition="$customer.hierarchy eq '教师'">selected</if> >教师</option><option value="农民" <if condition="$customer.hierarchy eq '农民'">selected</if> >农民</option><option value="个体户" <if condition="$customer.hierarchy eq '个体户'">selected</if> >个体户</option><option value="老板" <if condition="$customer.hierarchy eq '老板'">selected</if> >老板</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">收入：</label>
+			                                            <div class="col-sm-5">
+				                                            <select class="form-control" id="income" name="income"><option value="1000元以下" <if condition="$customer.income eq '1000元以下'">selected</if> >1000元以下</option><option value="1千-2千" <if condition="$customer.income eq '1千-2千'">selected</if> >1千-2千</option><option value="2千-4千" <if condition="$customer.income eq '2千-4千'">selected</if> >2千-4千</option><option value="4千-6千" <if condition="$customer.income eq '4千-6千'">selected</if> >4千-6千</option><option value="其它" <if condition="$customer.income eq '其它'">selected</if> >其它</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">生活状况：</label>
+			                                            <div class="col-sm-5">
+			                                                <select class="form-control" id="livingcondition" name="livingcondition"><option value="一人独居" <if condition="$customer.livingcondition eq '一人独居'">selected</if> >一人独居</option><option value="夫妻共同生活" <if condition="$customer.livingcondition eq '夫妻共同生活'">selected</if> >夫妻共同生活</option><option value="与儿女一起生活" <if condition="$customer.livingcondition eq '与儿女一起生活'">selected</if> >与儿女一起生活</option><option value="养老院敬老院" <if condition="$customer.livingcondition eq '养老院敬老院'">selected</if> >养老院敬老院</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">其它消费：</label>
+			                                            <div class="col-sm-5">
+				                                            <select class="form-control" id="consume" name="consume"><option value="保健品" <if condition="$customer.consume eq '保健品'">selected</if> >保健品</option><option value="医疗器械" <if condition="$customer.consume eq '医疗器械'">selected</if> >医疗器械</option><option value="报纸产品" <if condition="$customer.consume eq '报纸产品'">selected</if> >报纸产品</option><option value="电购产品" <if condition="$customer.consume eq '电购产品'">selected</if> >电购产品</option><option value="进口产品" <if condition="$customer.consume eq '进口产品'">selected</if> >进口产品</option><option value="其它" <if condition="$customer.consume eq '其它'">selected</if> >其它 </option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">爱好：</label>
+			                                            <div class="col-sm-9">
+			                                                <input type="text" class="form-control" id="hobby" name="hobby" value="{$customer.hobby}">
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">家中环境：</label>
+			                                            <div class="col-sm-5">
+				                                            <select class="form-control" id="quality" name="quality"><option value="高档" <if condition="$customer.quality eq '高档'">selected</if> >高档</option><option value="有文化" <if condition="$customer.quality eq '有文化'">selected</if> >有文化</option><option value="干净" <if condition="$customer.quality eq '干净'">selected</if> >干净</option><option value="一般" <if condition="$customer.quality eq '一般'">selected</if> >一般</option><option value="脏乱" <if condition="$customer.quality eq '脏乱'">selected</if> >脏乱</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">顾客质量：</label>
+			                                            <div class="col-sm-5">
+			                                                <select class="form-control" id="environment" name="environment"><option value="优质" <if condition="$customer.environment eq '优质'">selected</if> >优质</option><option value="中等偏上" <if condition="$customer.environment eq '中等偏上'">selected</if> >中等偏上</option><option value="中等" <if condition="$customer.environment eq '中等'">selected</if> >中等</option><option value="一般" <if condition="$customer.environment eq '一般'">selected</if> >一般</option><option value="差" <if condition="$customer.environment eq '差'">selected</if> >差</option></select>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">有无保健意识：</label>
+			                                            <div class="col-sm-8">
+				                                            <div class="radio left">
+					                                            <label><input name="consciousness" id="consciousness" value="1" type="radio" class="colored-blue" <if condition="$customer.consciousness eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="consciousness" id="consciousness" type="radio" value="0" class="colored-danger" <if condition="$customer.consciousness eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+		                                    <div class="row">
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">最近有无重大支出：</label>
+			                                            <div class="col-sm-8">
+			                                                <div class="radio left">
+					                                            <label><input name="bigincome" id="bigincome" value="1" type="radio" class="colored-blue" <if condition="$customer.bigincome eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="bigincome" id="bigincome" type="radio" value="0" class="colored-danger" <if condition="$customer.bigincome eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+			                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+			                                    	<div class="form-group">
+			                                            <label class="col-sm-3 control-label no-padding-right">是否参加过会销：</label>
+			                                            <div class="col-sm-8">
+				                                            <div class="radio left">
+					                                            <label><input name="joinsell" id="joinsell" value="1" type="radio" class="colored-blue" <if condition="$customer.joinsell eq 1">checked</if> ><span class="text"> 是</span></label>
+					                                        </div>
+					                                        <div class="radio left">
+					                                            <label><input name="joinsell" id="joinsell" type="radio" value="0" class="colored-danger" <if condition="$customer.joinsell eq 0">checked</if> ><span class="text"> 否</span></label>
+					                                        </div>
+			                                            </div>
+			                                        </div>
+			                                    </div>
+		                                    </div>
+                                        </div>
+                                    	
+                                    	<div class="row">
+		                                    <div class="form-group">
+			                                    <label class="col-sm-2 control-label no-padding-right"></label>
+			                                    <div class="col-sm-9">
+			                                        <button type="button" name="submit" id="submit" class="btn btn-primary mr10">确定</button>
+			                                    </div>
+			                                </div>
+			                            </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+    </div>
+    </div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datepicker.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+$('#birthday').datepicker();
+$('#spousebirthday').datepicker();
+$("#customerid_value").val("");
+
+$('#meettime').datepicker();
+
+$("#provinceid").change(function(){
+	var parentId=$("#provinceid").get(0).selectedIndex*1+1;
+	console.info(parentId);
+	if(null!= parentId && ""!=parentId){		
+		$.ajax({
+			url:'{:U("Base/getCity")}',
+			data:{'parentid':parentId},
+			dataType:'json',
+			success:function(res){
+				//console.info(res);
+				var options="<option value=''>选择所在城市</option>";
+				if(res.length>0){
+					for(var i=0;i<res.length;i++){
+						options+="<option value="+res[i].id+">"+res[i].name+"</option>";
+					}
+					$("#cityid").html(options);
+				}
+			}
+		});
+	}
+	else{
+		$("#cityid").html("");
+	}
+});
+
+$("#submit").click(function(){
+	var levelid = $("#levelid").val();
+	var sex = $('input:radio[name=sex]:checked').val();
+	var isflow = $('input:radio[name=isflow]:checked').val();
+	var issugar = $('input:radio[name=issugar]:checked').val();
+	var isproduct = $('input:radio[name=isproduct]:checked').val();
+	var istherapy = $('input:radio[name=istherapy]:checked').val();
+	var ischeck = $('input:radio[name=ischeck]:checked').val();
+	var isintense = $('input:radio[name=isintense]:checked').val();
+	var isfollow = $('input:radio[name=isfollow]:checked').val();
+	var istrue = $('input:radio[name=istrue]:checked').val();
+	var righthandle = $('input:radio[name=righthandle]:checked').val();
+	var consciousness = $('input:radio[name=consciousness]:checked').val();
+	var bigincome = $('input:radio[name=bigincome]:checked').val();
+	var joinsell = $('input:radio[name=joinsell]:checked').val();
+	var birthday = $("#birthday").val();
+	var provinceid = $("#provinceid").get(0).selectedIndex*1+1;
+	var cityid = $("#cityid").val();
+	var office_tel = $("#office_tel").val();
+	var mobile_tel = $("#mobile_tel").val();
+	var address = $("#address").val();
+	var spousename = $("#spousename").val();
+	var spousebirthday = $("#spousebirthday").val();
+	var occupation = $("#occupation").val();
+	var medicalhistory = $("#medicalhistory").val();
+	var age = $("#age").val();
+	var fromcustomerid = $("#fromcustomerid").val();
+	var spouseage = $("#spouseage").val();
+	var company = $("#company").val();
+	var spousecompany = $("#spousecompany").val();
+	var spouseoccupation = $("#spouseoccupation").val();
+	var immediatefamily = $("#immediatefamily").val();
+	var intro = $("#intro").val();
+	var residence = $("#residence").val();
+	var domicile = $("#domicile").val();
+	var hierarchy = $("#hierarchy").val();
+	var income = $("#income").val();
+	var livingcondition = $("#livingcondition").val();
+	var consume = $("#consume").val();
+	var hobby = $("#hobby").val();
+	var quality = $("#quality").val();
+	var environment = $("#environment").val();
+
+    var customerid = $("#customerid").val();
+    
+    var basemediacal = '';
+ 	$("input[name=basemediacal]:checked").each(function(){
+    	basemediacal += $(this).val()+",";
+  	});
+  	
+  	/*****************/
+  	var pharmacy_name = '';
+ 	$("#med_list input[name=pharmacy_name]").each(function(){
+    	pharmacy_name += $(this).val()+",";
+  	});
+  	
+  	var pharmacy_val = '';
+ 	$("#med_list input[name=pharmacy_val]").each(function(){
+    	pharmacy_val += $(this).val()+",";
+  	});
+  	
+  	var pharmacy = "";
+  	pharmacy = pharmacy_name+"|"+pharmacy_val;
+	/*****************/
+	
+	/*****************/
+	var meettime = '';
+   	$("#meet_list input[name=meettime]").each(function(){
+    	meettime += $(this).val()+",";
+	});
+	
+	var meettype = '';
+   	$("#meet_list input[name=meettype]").each(function(){
+    	meettype += $(this).val()+",";
+	});
+	
+	var lecturer = '';
+   	$("#meet_list input[name=lecturer]").each(function(){
+    	lecturer += $(this).val()+",";
+	});
+	
+	var gift = '';
+   	$("#meet_list input[name=gift]").each(function(){
+    	gift += $(this).val()+",";
+	});
+	
+	var errmsg = '';
+   	$("#meet_list input[name=errmsg]").each(function(){
+    	errmsg += $(this).val()+",";
+	});
+	/*****************/
+	
+	$.ajax({
+		url:'{:U("Leaguer/operateLeaguer")}',
+		data:{'levelid':levelid,'sex':sex,'isflow':isflow,'issugar':issugar,'isproduct':isproduct,'istherapy':istherapy,'ischeck':ischeck,'isintense':isintense,'isfollow':isfollow,'istrue':istrue,'righthandle':righthandle,'consciousness':consciousness,'bigincome':bigincome,'joinsell':joinsell,'birthday':birthday,'provinceid':provinceid,'cityid':cityid,'office_tel':office_tel,'mobile_tel':mobile_tel,'address':address,'spousename':spousename,'spousebirthday':spousebirthday,'occupation':occupation,'medicalhistory':medicalhistory,'age':age,'fromcustomerid':fromcustomerid,'spouseage':spouseage,'company':company,'spousecompany':spousecompany,'spouseoccupation':spouseoccupation,'immediatefamily':immediatefamily,'intro':intro,'residence':residence,'domicile':domicile,'hierarchy':hierarchy,'income':income,'livingcondition':livingcondition,'consume':consume,'hobby':hobby,'quality':quality,'environment':environment,'basemediacal':basemediacal,'pharmacy':pharmacy,'meettime':meettime,'meettype':meettype,'lecturer':lecturer,'gift':gift,'errmsg':errmsg,'customerid':customerid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                location.href = '{:U("Leaguer/index")}';
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {    
+    $("#add_med").click(function(){
+    	var dd=parseInt($("[class=med_div]:last").attr("data"))+1;
+		if(!dd) dd=0;
+		
+		html="<div class='med_div' data='"+dd+"'><span class='left blood-span'>药名:</span><input name='pharmacy_name' id='pharmacy_name' value='' type='text' class='form-control left' style='width:35%;'><span class='left blood-span'>剂量:</span><input name='pharmacy_val' id='pharmacy_val' value='' type='text' class='form-control left' style='width:35%; margin-right:15px;'><button type='button' onclick='del_med("+dd+")' class='btn btn-danger' ><i class='fa fa-times'></i></button></div>";
+		$('#med_list').append(html);
+    });
+    
+    
+    $("#add_meet").click(function(){
+    	var dd=parseInt($("#meet_list tr:last").attr("data"))+1;
+		if(!dd) dd=0;
+		
+		html="<tr data="+dd+"><td style='width:20%'><div class='input-group'><input class='form-control date-picker' name='meettime' xtype='date' type='text' data-date-format='yyyy-mm-dd'><span class='input-group-addon'><i class='fa fa-calendar'></i></span></div></td><td><input type='text' name='meettype' id='meettype"+dd+"' class='form-control'></td><td><input type='text' name='lecturer' id='lecturer"+dd+"' class='form-control'></td><td><input type='text' name='gift' id='gift"+dd+"' class='form-control'></td><td><input type='text' name='errmsg' id='errmsg"+dd+"' class='form-control'></td><td class='table-darkorange'><a class='btn btn-danger btn-circle btn-xs' onclick='del_meet("+dd+")'><i class='fa fa-times'></i></a></td></tr>";
+		$('#meet_list').append(html);
+		buildListener();
+    });
+});
+
+function del_med(dd){
+//	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+//	if (confirm(msg)==false){
+//		return false; 
+//	}
+	$("div[data="+dd+"]").remove();
+}
+
+function del_meet(dd){
+//	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+//	if (confirm(msg)==false){
+//		return false; 
+//	}
+	$("#meet_list tr[data="+dd+"]").remove();
+}
+
+//监听事件
+function buildListener(){
+    $("#meet_list input[xtype='date']").click(function(){
+ 　　 	$(this).datepicker();
+    });
+}
+</script>
+</body>
+</html>

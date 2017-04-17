@@ -1,0 +1,226 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 血糖信息 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_sugar" >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">{$realname} 的血糖信息</span>
+                            <div class="widget-buttons"><a href="{$go_url}" class="btn btn-primary white" data-toggle="maximize"><i class="fa fa-plus-square-o"></i> 返回列表</a></div>
+                        </div>
+                        <div class="widget-body">
+                            <div id="line-chart" class="chart chart-lg"></div>
+                            <form id="registrationForm" method="post" class="form-horizontal">
+                            <div class="row">
+                            	<div class="col-sm-6">
+                            		
+                                        <div class="form-title">第一次测试数据</div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标1</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota1" id="quota1" value="{$sugar.quota1}" />
+                                            </div>
+                                        </div>
+										<div class="form-group">
+                                            <label class="col-lg-4 control-label">指标2</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota2" id="quota2" value="{$sugar.quota2}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标3</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota3" id="quota3" value="{$sugar.quota3}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标4</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota4" id="quota4" value="{$sugar.quota4}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标5</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota5" id="quota5" value="{$sugar.quota5}" />
+                                            </div>
+                                        </div>
+                            	</div>
+                            	<div class="col-sm-6">
+                                        <div class="form-title">第二次测试数据</div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标6</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota6" id="quota6" value="{$sugar.quota6}" />
+                                            </div>
+                                        </div>
+										<div class="form-group">
+                                            <label class="col-lg-4 control-label">指标7</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota7" id="quota7" value="{$sugar.quota7}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标8</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota8" id="quota8" value="{$sugar.quota8}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标9</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota9" id="quota9" value="{$sugar.quota9}" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-lg-4 control-label">指标10</label>
+                                            <div class="col-lg-8">
+                                                <input type="text" class="form-control" name="quota10" id="quota10" value="{$sugar.quota10}" />
+                                            </div>
+                                        </div>
+                                    
+                            	</div>
+                            </div>
+                            <div class="row">
+                            	<div class="col-sm-5 col-sm-offset-5"><button type="button" name="submit" id="submit" class="btn btn-primary" >提交</button></div>
+                            </div>
+                            </form>
+                        </div>
+                	</div>
+                </div>
+        	</div>
+    	</div>
+    </div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script src="APP_NAME/Public/js/jquery.flot.js"></script>
+<script src="APP_NAME/Public/js/jquery.flot.tooltip.js"></script>
+<script src="APP_NAME/Public/js/jquery.flot.selection.js"></script>
+
+<script>
+var gridbordercolor = "#eee";
+var InitiateFlotSelectableChart = function () {
+    return {
+        init: function () {
+            var data = [{
+                color: themeprimary,
+                label: "第一次测",
+                data: {$sugar_arr1}
+            }
+            , {
+                color: themethirdcolor,
+                label: "第二次测",
+                data: {$sugar_arr2}
+            }];
+
+            var options = {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                legend: {
+                    noColumns: 2
+                },
+                xaxis: {
+                    tickDecimals: 0,
+                    color: gridbordercolor
+                },
+                yaxis: {
+                    min: 0,
+                    color: gridbordercolor
+                },
+                selection: {
+                    mode: "x"
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: false,
+                    borderWidth: 0,
+                    aboveData: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    defaultTheme: false,
+                    content: "<b>%s</b> : <span>%x</span> : <span>%y</span>",
+                },
+                crosshair: {
+                    mode: "x"
+                }
+            };
+
+            var placeholder = $("#line-chart");
+
+            var plot = $.plot(placeholder, data, options);
+
+            $("#clearSelection").click(function () {
+                plot.clearSelection();
+            });
+        }
+    };
+}();
+
+$(window).bind("load", function () {
+	themeprimary = getThemeColorFromCss('themeprimary');
+    themethirdcolor = getThemeColorFromCss('themethirdcolor');
+
+    InitiateFlotSelectableChart.init();
+});
+
+$(document).ready(function(e) {
+$("#submit").click(function(){
+	var quota1 = $("#quota1").val();
+	var quota2 = $("#quota2").val();
+	var quota3 = $("#quota3").val();
+	var quota4 = $("#quota4").val();
+	var quota5 = $("#quota5").val();
+	var quota6 = $("#quota6").val();
+	var quota7 = $("#quota7").val();
+	var quota8 = $("#quota8").val();
+	var quota9 = $("#quota9").val();
+	var quota10 = $("#quota10").val();
+
+	var customerid = '{$customerid}';
+	
+	$.ajax({
+		url:'{:U("Leaguer/operateBloodSugar")}',
+		data:{'quota1':quota1,'quota2':quota2,'quota3':quota3,'quota4':quota4,'quota5':quota5,'quota6':quota6,'quota7':quota7,'quota8':quota8,'quota9':quota9,'quota10':quota10,'customerid':customerid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+            	bootbox.alert(res.errmsg);
+                location.href = '{:U("Leaguer/bloodSugar")}/customerid/{$customerid}/realname/{$realname}';
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+});
+</script>
+</body>
+</html>

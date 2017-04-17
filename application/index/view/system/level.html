@@ -1,0 +1,146 @@
+<include file="public/head" />
+<style type="text/css">
+#positionlist tr{ cursor: pointer;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  会员级别</small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+        	<div class="row">
+        		<div class="col-lg-6 col-sm-6 col-xs-12">
+        			<table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blue">
+                            <tr><th>编号</th><th>名称</th><th>状态</th></tr>
+                        </thead>
+                        <tbody id="positionlist">
+                        	<foreach name="grade" item="v">
+                            <tr data='{$v.id}' name='{$v.name}' remark='{$v.remark}' ><td>{$v.id}</td><td>{$v.name}</td><td><if condition="$v.is_del eq 0">启用<else />禁用</if></td></tr>
+                           </foreach>
+                        </tbody>
+                    </table>
+
+        		</div>
+        		<div class="col-lg-6 col-sm-6 col-xs-12">
+    				<div class="well with-header">
+                        <div class="header bordered-sky" style="">
+                            <h4 style="float:left;"></h4>
+                            <div class="header-buttons" style="float:right;">
+                                <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="addLevel()">
+                                    <i class="fa fa-plus-square-o"></i> <span class="text">提交</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="horizontal-form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">描述</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control" rows="3" id="remark" name="remark" placeholder=""></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">状态</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio left">
+                                            <label><input name="is_del" id="is_del" value="0" type="radio" class="colored-blue"><span class="text"> 启用</span></label>
+                                        </div>
+                                        <div class="radio left">
+                                            <label><input name="is_del" type="radio" value="1" class="colored-danger"><span class="text"> 禁用</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="levelid" id="levelid" value=""> 
+                            </form>
+                        </div>
+                    </div>
+
+        		</div>
+        	</div>
+        </div>
+
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+function addLevel(){
+	var name = $("#name").val();
+	var is_del = $("input[name=is_del]:checked").val();
+	var levelid = $("#levelid").val();
+	var remark = $("#remark").val();
+	var ajax_rul = "";
+	
+	if(levelid == ""){
+		ajax_rul = "{:U('System/addLevel')}";
+	}else{
+		ajax_rul = "{:U('System/editLevel')}";
+	}
+	
+	if(name == ""){
+		alert("请填写名称!"); return false;
+	}
+	
+	$.ajax({
+		url:ajax_rul,
+		data:{'name':name,'is_del':is_del,'id':levelid,'remark':remark},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			if(res.errcode == 0){
+				if(levelid == ""){
+					$("<tr data='"+res.id+"' name='"+res.name+"' isdel="+is_del+" remark='"+remark+"'><td>"+res.id+"</td><td>"+res.name+"</td><td>"+res.is_del+"</td></tr>").appendTo("#positionlist");
+					buildListener();
+				}else{
+					location.href = "{:U('System/level')}";
+				}
+				$("#name").val('');
+				$("#remark").val('');
+			}else{
+				alert(res.errmsg); return false;
+			}
+		}
+	});
+}
+
+$("#positionlist tr").click(function(){
+		var id = $(this).attr("data");
+		var name = $(this).attr('name');
+		var remark = $(this).attr('remark');
+		var is_del = $(this).attr('isdel');
+		viewLevel(id,name,is_del,remark);
+		//alert(id);
+	});
+
+function buildListener(){
+	$("#positionlist tr").click(function(){
+		var id = $(this).attr("data");
+		var name = $(this).attr('name');
+		var is_del = $(this).attr('isdel');
+		viewLevel(id,name,is_del);
+		//alert(id);
+	});
+}
+
+function viewLevel(id,name,is_del,remark){
+	$("#name").val(name);
+	$("#remark").val(remark);
+	$("input[name='is_del'][value="+is_del+"]").attr("checked",true); 
+	$("#levelid").val(id);
+}
+</script>
+</body>
+</html>

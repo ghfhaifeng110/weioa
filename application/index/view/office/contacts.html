@@ -1,0 +1,95 @@
+<include file="public/head" />
+<style type="text/css">
+#positionlist tr{ cursor: pointer;}
+</style>
+</head>
+<body>
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 办公中心 </small><small><i class="fa fa-angle-right"></i> 通讯录 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+        	<div class="row">
+        		<div class="col-lg-3 col-sm-3 col-xs-12 sub_left_menu">
+        			<div class="well" style="background-color:#fcfcfc;">
+        			<ul class="tree_menu">
+        				<foreach name="dept" item="d">
+        				<li data='{$d.id}'><a href="javascript:void(0)"><i class="fa fa-angle-right"></i>{$d.name}</a></li>
+        				</foreach>
+        			</ul>
+        			</div>
+        		</div>
+        		<div class="col-lg-9 col-sm-9 col-xs-12">
+    				<div class="well with-header">
+                        <div class="header bordered-sky" style="">
+                            <h4 style="float:left;">用户列表</h4>
+                        </div>
+                        <div class="dataTables_wrapper form-inline">
+                            <div class="table-scrollable">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>姓名</th><th>性别</th><th>职位</th><th>联系方式</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                            </div>
+                            <div class="row DTTTFooter">
+                                <div class="dataTables_paginate paging_bootstrap" id="page">
+                                    <ul class="pagination">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+        		</div>
+        	</div>
+        </div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+$(".tree_menu li").click(function(){
+	var deptid = $(this).attr("data");
+	
+	$(".tree_menu").find("a").removeClass("active");
+	$(this).find("a").addClass("active");
+	
+	getList('{:U("User/getUserList")}',{'dept_id':deptid});
+});
+
+function getList(url,data){
+	data = data || {};
+	url = url || ''; 
+	
+	$('#dataList').html("<tr><td colspan='6'>数据加载中，请稍后！</td></tr>");
+	
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.real_name+'</td>';
+				html += '<td>'+v.sex+'</td>';
+				html += '<td>'+v.position_name+'</td>';
+				html += '<td>'+v.mobile_tel+'/'+v.office_tel+'</td>';
+				html += '<td>';
+				html += '<a href="{:U("User/userInfo")}/id/'+v.id+'" data-id="'+v.id+'" class="info"><i class="fa fa-info text-primary"></i> 详情</a>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').html("<tr><td colspan='6'>无查询结果！</td></tr>");
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

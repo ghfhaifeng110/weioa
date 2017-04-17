@@ -1,0 +1,173 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 系统管理 </small><small><i class="fa fa-angle-right"></i>  权限设置 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" style="margin:3px 0px 10px 0px;">
+                        <div class="widget-header bordered-bottom" style="min-height:45px; padding-top:5px;">
+                            <div class="widget-caption"><span style="float:left;">栏目：</span><select class="form-control col-10" name="node_sel" id="node_sel" style="width:auto;float:left;"><option value="0">选择</option><foreach name="node" item="nd"><option value="{$nd.id}">{$nd.name}</option></foreach></select></div>
+                            <div class="widget-buttons"><a href="javascript:void(0)" onClick="role_save()" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> 保存</a></div>
+                        </div>
+                    </div>
+                </div>
+        	</div>
+        	<div class="row">
+        	    <div class="col-xs-4 col-md-4">
+        	        <table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blue">
+                            <tr><th>名称</th></tr>
+                        </thead>
+                        <tbody id="role_table">
+                            <foreach name="role" item="rol">
+                            <tr id="{$rol.id}"><td>{$rol.name}</td></tr>
+                            </foreach> 
+                        </tbody>
+                    </table>
+        	    </div>
+        	    <div class="col-xs-8 col-md-8">
+        	        <form id="form_data" name="form_data" method="post">
+                        <input type="hidden" id="node_id" value="">
+                        <input type="hidden" id="role_id" value="">
+                        <table class="table table-hover table-striped table-bordered">
+                            <thead class="bordered-blue"><tr style="background:#fff;"><td class="text-center" style="width:50%;">名称</td><td>读取</td><td>修改</td><td>管理</td></tr></thead>
+                            <tbody id="node_list"></tbody>
+                        </table>
+                    </form>
+        	    </div>
+        	</div>
+    	</div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+$(document).ready(function(e) {
+
+	$("#role_table tr").click(function(){
+		var roleid = "";
+		var nid = "";
+		
+		$(":checkbox[id='nodeid']").each(function () {
+            nid += $(this).val()+":";
+        });
+		
+		if(nid == ""){
+		    bootbox.alert("请先选择菜单选项！", function() {	});
+		}else{
+            $("#role_table tr").each(function() {
+		        $(this).attr("class", "");
+	        });
+	        $(this).attr("class", "active");
+	        roleid = $(this).attr("id");
+	        $("#role_id").val(roleid);
+	
+	        $.ajax({
+	            url:'{:U("System/getRoleNode")}',
+		        data:{'roleid':roleid,'nodeid':nid},
+		        dataType:"json",
+		        type:"post",
+		        success: function(result){
+		            console.info(result);
+					$("#node_list input:checkbox").prop('checked',false);
+					if(result){
+    					$.each(result,function(idx,res){
+    						if(res.data == 1){
+    							node_id += res.nodeid+",";
+    						    $("input:checkbox[id='nodeid'][value="+res.nodeid+"]").prop('checked','true');
+    							if(res.admin == res.nodeid){
+    								$("input:checkbox[id='admin'][value="+res.nodeid+"]").prop('checked','true');
+    							}
+    							if(res.reader == res.nodeid){
+    								$("input:checkbox[id='reader'][value="+res.nodeid+"]").prop('checked','true');
+    							}
+    							if(res.writer == res.nodeid){
+    								$("input:checkbox[id='writer'][value="+res.nodeid+"]").prop('checked','true');
+    							}
+    						}
+    					});
+					}
+		        }
+	        });
+		}
+	});
+	
+	$("#node_sel").change(function(){
+		var node_sel_val = "";
+	    var node_sel_name = "";
+		var node_array = "";
+	    var r_html = "";
+	    var node_id = "";
+	    
+	    node_sel_val = $(this,"option:selected").val();
+		node_sel_name = $("#node_sel option:selected").text();
+		
+		console.info(node_sel_val);
+		if(node_sel_val == 0){
+		    $("#node_list").html("");
+		    bootbox.alert("请选择栏目"); return false;
+		}
+		
+        $("#node_list").html("");
+		//$("#node_id").val(node_sel_val);
+		$.ajax({
+		    url:'{:U("System/getNode")}',
+			dataType:"json",
+			data:{'id':node_sel_val},
+			type:"post",
+			success: function(result){
+				node_id += node_sel_val+",";
+				r_html = "<tr><td><label><input type='checkbox' class='colored-blue' name='nodeid' id='nodeid' value='"+node_sel_val+"'><span class='text'> "+node_sel_name+"</span></label></td><td><label><input type='checkbox' name='reader' id='reader' value='"+node_sel_val+"' class='colored-blue'><span class='text'>&nbsp;</span></label></td><td><label><input type='checkbox' name='writer' id='writer' value='"+node_sel_val+"' class='colored-blue'><span class='text'>&nbsp;</span></label></td><td><label><input type='checkbox' name='admin' id='admin' value='"+node_sel_val+"' class='colored-blue'><span class='text'>&nbsp;</span></label></td></tr>";
+				$.each(result,function(idx,res){
+					node_id += res.id+",";
+				    r_html += "<tr><td><label><input class='colored-blue' type='checkbox' name='nodeid' id='nodeid' value='"+res.id+"'><span class='text'> "+res.name+"</span></label></td><td><label><input class='colored-blue' type='checkbox' name='reader' id='reader' value='"+res.id+"'><span class='text'>&nbsp;</span></td><td><label><input class='colored-blue' type='checkbox' name='writer' id='writer' value='"+res.id+"'><span class='text'></span></label></td><td><label><input class='colored-blue' type='checkbox' name='admin' id='admin' value='"+res.id+"'><span class='text'></span></label></td></tr>";
+				});
+				$("#node_list").html(r_html); 
+				$("#node_id").val(node_id);
+			}
+		});
+	});
+});
+
+function role_save(){
+	var role_id = $("#role_id").val();
+	var node_id = $("#node_id").val();
+	var vars="";
+	
+	if(role_id == "" && node_id == ""){
+		noty({text: "请重新检查数据！",type: 'error',layout:'topCenter'});
+		//bootbox.alert("请重新检查数据！", function() {	});
+	}
+	
+	vars = ($("#node_list input:checkbox:checked").serialize().replaceAll("&","|")).replaceAll("=","#");
+
+	$.ajax({
+	    url:'{:U("System/saveRoleNode")}',
+		data:{'vars':vars,'role_id':role_id,'node_id':node_id},
+		dataType:"json",
+		type:"post",
+		success: function(result){
+		    if(result.errcode == 0){
+		    	bootbox.alert(result.errmsg);
+		    }else{
+		    	bootbox.alert(result.errmsg); return false;
+		    }
+		}
+	});
+}
+
+</script>
+</body>
+</html>

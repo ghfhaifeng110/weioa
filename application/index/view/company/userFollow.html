@@ -1,0 +1,319 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="APP_NAME/Public/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+    <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户管理 </small><small><i class="fa fa-angle-right"></i>  客户跟进列表 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_follow" <if condition="$act neq ''">style="display:none;"</if> >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">客户  {$realname}  跟进</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="addfollow_bt"><i class="fa fa-plus-square-o"></i> 添加跟进</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1">
+                                    <label>姓名：<input type="text" class="form-control input-sm" id="srealname" aria-controls="searchable"></label>
+                                    <label>客户级别：<select class="form-control" id="sgrade"><option value="">全部</option><foreach name="grade" item="d"><option value="{$d.id}">{$d.name}</option></foreach></select></label>
+                                    <label><button type="button" class="btn btn-primary" id="esearch"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>跟进类型</th><th>联系时间</th><th>下次联系时间</th><th>标签</th><th>填表时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        			<div class="widget" style="display:none;" id="add_follow">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加跟进</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">跟踪类型：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="radio left">
+                                                        <label><input name="type" id="type" value="1" type="radio" class="colored-blue"><span class="text"> 电话</span></label>
+                                                    </div>
+                                                    <div class="radio left">
+                                                        <label><input name="type" id="type" type="radio" value="2" class="colored-blue"><span class="text"> 上门</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">联系时间：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input class="form-control" id="contacttime" name="contacttime" type="text">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">标签：</label>
+                                                <div class="col-sm-8"> 
+                                                    <input type="text" class="form-control" id="tags" name="tags" placeholder="">
+                                                </div>
+                                            </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">下次联系时间：</label>
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <input class="form-control" id="nexttime" name="nexttime" type="text">
+                                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-2 control-label no-padding-right">跟进内容：</label>
+	                                            <div class="col-sm-10">
+	                                                <textarea name="remark" id="remark" class="form-control" rows="5"></textarea>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label no-padding-right">跟进结果：</label>
+                                                <div class="col-sm-10">
+                                                    <textarea name="result" id="result" class="form-control" rows="5"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-2 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="button" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="customerid" id="customerid" value="{$customerid}" />
+	                                <input type="hidden" name="followid" id="followid" value="0" />
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+    </div>
+    </div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datetimepicker.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+$('#contacttime').datetimepicker({
+    language:'zh-CN',
+    format:'yyyy-mm-dd hh:ii:ss',
+    maxView:4,
+    todayBtn:true
+});
+
+$('#nexttime').datetimepicker({
+    language:'zh-CN',
+    format:'yyyy-mm-dd hh:ii:ss',
+    maxView:4,
+    todayBtn:true
+});
+
+$("#submit").click(function(){
+	var type = $("#type").val();
+	var customerid = $("#customerid").val();
+	var contacttime = $("#contacttime").val();
+	var nexttime = $("#nexttime").val();
+	var remark = $("#remark").val();
+	var result = $("#result").val();
+	var tags = $("#tags").val();
+	
+	var followid = $("#followid").val();
+	
+	if(type == "" || typeof(type) == 'undefined'){
+		bootbox.alert("请选择跟进类型"); return false;
+	}
+
+	$.ajax({
+		url:'{:U("Customer/addUserFollow")}',
+		data:{'type':type,'contacttime':contacttime,'nexttime':nexttime,'remark':remark,'result':result,'tags':tags,'customerid':customerid,'followid':followid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(followid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("Customer/userFollow")}/customerid/'+customerid;
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {
+	$('#addfollow_bt').click(function(){
+		
+		$("#tags").val("");
+		$("#contacttime").val("0");
+		$("#nexttime").val("");
+		$("#remark").val("");
+		$("#result").val("");
+		$("#followid").val("0");
+		
+        $('#list_follow').hide();
+        $('#add_follow').slideDown('slow');
+	});
+
+	var customerid = '{$customerid}';
+    
+	getList('{:U("Customer/getCustomerFollowList")}',{'customerid':customerid});
+});
+
+function goback_send(){
+    $('#add_follow').hide();
+    $('#list_follow').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("Customer/getCustomerFollowInfo")}',
+		data:{"id":id},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			$("#contacttime").val(res.contacttime);			
+			$("#nexttime").val(res.nexttime);
+			$('input:radio[name=type][value='+res.type+']').attr("checked",true);
+			$("#remark").val(res.remark);
+			$("#result").val(res.result);
+			$("#tags").val(res.tags);
+			$("#followid").val(res.id);
+		}
+	});
+	
+	$('#list_follow').hide();
+    $('#add_follow').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+//	$.ajax({
+//      type: "POST",
+//      url: '{:U("Customer/delCustomer")}',
+//		data:{"id":id},
+//		dataType: "json",
+//		success: function(res)
+//		{
+//			location.href = '{:U("Customer/index")}';
+//		}
+//			
+//	})
+})
+
+$("#esearch").click(function(){
+	var realname = $("#srealname").val();
+	var grade = $("#sgrade").val();
+	var customerid = '{$customerid}';
+	
+	getList('{:U("Customer/getCustomerFollowList")}',{'customerid':customerid,'realname':realname,'grade':grade});
+});
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || ''; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.type+'</td>';
+				html += '<td>'+v.contacttime+'</td>';
+				html += '<td>'+v.nexttime+'</td>';
+				html += '<td>'+v.tags+'</td>';
+				html += '<td>'+v.createtime+'</td>';
+				html += '<td>';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

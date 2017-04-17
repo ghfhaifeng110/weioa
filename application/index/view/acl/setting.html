@@ -1,0 +1,67 @@
+<{include file="head.html"}>
+</head>
+
+<body>
+<{include file="top.html"}>
+
+<div class="main-container container-fluid">
+	<div class="page-container">
+        <{include file="nav_left.html"}>
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  <{$node_name}> </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+       
+            <div class="well" style="margin-bottom:10px; height:55px;">
+                <select class="left"><option value="1">选择</option></select>
+                <button type="button" class="btn btn-primary right">保存</button>
+            </div>
+            
+        	<div class="row">
+        		<div class="col-lg-5 col-sm-5 col-xs-12">
+        			<table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blue">
+                            <tr><th>名称</th><th>状态</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                        </tbody>
+                    </table>
+
+        		</div>
+        		<div class="col-lg-7 col-sm-7 col-xs-12">
+    				<table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blue">
+                            <tr><th>菜单</th><th align="center">读取</th><th align="center">修改</th><th align="center">管理</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text">公告</span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td></tr>
+                            <tr><td><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text">公告搜索</span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td></tr>
+                            <tr><td><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text">公告文档</span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td><td align="center"><label class="checkbox"><input type="checkbox" class="checkbox colored-success"><span class="text"></span></label></td></tr>
+                        </tbody>
+                    </table>
+
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="<{$APP_URL}>/themes/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="<{$APP_URL}>/themes/js/bootbox.js"></script>
+<script>
+$(document).ready(function(e) {
+
+});
+</script>
+</body>
+</html>

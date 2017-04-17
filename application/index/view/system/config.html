@@ -1,0 +1,91 @@
+<include file="public/head" />
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  系统设置 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+        	<div class="row">
+        		<div class="col-lg-12 col-sm-12 col-xs-12">
+    				<div class="widget">
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">系统设置</span>
+                        </div>
+                        <div class="widget-body">
+                            <div>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="system_title" class="col-sm-2 control-label no-padding-right">系统标题：</label>
+                                        <div class="col-sm-6">
+                                            <input type="email" class="form-control" id="system_title" placeholder="" value="{$config.system_title}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stock_alarm" class="col-sm-2 control-label no-padding-right">库存报警值：</label>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" id="stock_alarm" placeholder="" value="{$config.stock_alarm}">
+                                            <p class="help-block">库存的报警数量值，如果库存低于这个值就会报警!</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-6">
+                                            <button type="button" id="systembtn" class="btn btn-primary">确定</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+        		</div>
+        	</div>
+        </div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+$("#systembtn").click(function(){
+	var system_title = $("#system_title").val();
+	var stock_alarm = $("#stock_alarm").val();
+	
+	var str = "";
+	
+	if(!isNaN(stock_alarm)){
+        var dot = stock_alarm.indexOf(".");
+        if(dot != -1){
+        	bootbox.alert("数字不合法！");
+        }
+    }else{
+        bootbox.alert("数字不合法！");
+    }
+    
+    str = 'system_title|'+system_title+','+'stock_alarm|'+stock_alarm;
+    
+    $.ajax({
+    	url:'{:U("System/saveConfig")}',
+    	data:{'parameter':str},
+    	type:'post',
+    	dataType:'json',
+    	beforeSend:function(){
+    		$("#systembtn").html("提交中...");
+    		$("#systembtn").attr("disabled",true);
+    	},
+    	success:function(res){
+    		if(res.errcode == 0){
+    			location.href = '{:U("System/config")}';
+    		}else{
+    			$("#systembtn").html("确定");
+    			$("#systembtn").attr("disabled",false);
+    		}
+    	}
+    });
+});
+</script>
+</body>
+</html>

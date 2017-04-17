@@ -1,0 +1,101 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+em{ color:#CECECE;}
+</style>
+</head>
+
+<body>
+
+                <div class="page-header" style="top:46px;">
+                    <div class="header-title">
+                        <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户详情 </small><small><i class="fa fa-angle-right"></i> {$user.real_name}</small></h4>
+                    </div>
+                </div>
+                <div class="page-body" style="margin-top:80px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="profile-container">
+                                <div class="profile-header row">
+		                            
+		                            <div class="col-lg-5 col-md-8 col-sm-12 profile-info">
+		                                <div class="header-fullname">{$user.real_name}</div>
+		                                <div class="header-information"><h6>{$user.store}&nbsp;&nbsp;{$user.position}</h6><h5>{$user.mobile_tel}&nbsp;&nbsp;{$user.office_tel}</h5><h6>{$user.email}</h6></div>
+		                            </div>
+		                            <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 profile-stats">
+		                                <div class="row">
+		                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 stats-col"><div class="stats-title"><i class="fa fa-unlock-alt"></i> 积分</div><div class="stats-value pink">{$user.point}</div></div>
+		                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 stats-col"><div class="stats-title"><i class="fa fa-user"></i> 客户/会员</div><div class="stats-value pink">{$user.customer_count}</div></div>
+		                                </div>
+		                                <div class="row">
+		                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col">订单总量:<font class="pink">{$user.order_count}</font></div>
+		                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col">发货:<font class="pink">{$user.sou_order_count}</font></div>
+		                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 inlinestats-col">退货:<font class="pink">{$user.tui_order_count}</font></div>
+		                                </div>
+		                            </div>
+		                        </div>
+
+		                        <div class="profile-body">
+		                            <div class="col-lg-12">
+		                                <div class="tabbable">
+		                                    <ul class="nav nav-tabs tabs-flat  nav-justified" id="myTab11">
+				                                <li class="active"><a data-toggle="tab" href="#overview"> 最近客户/会员 </a></li>
+				                                <li class="tab-red"><a data-toggle="tab" href="#timeline"> 最近订单</a></li>
+				                                <li class="tab-palegreen"><a data-toggle="tab" href="#settings" > 积分记录</a></li>
+		                                    </ul>
+		                                    <div class="tab-content tabs-flat">
+		                                        <div id="settings" class="tab-pane">
+		                                        	<table class="table table-hover">
+                                    					<thead class="bordered-default"><tr><th>类型</th><th>积分</th><th>添加时间</th><th>说明</th></tr></thead>
+                                    					<tbody>
+                                    						<foreach name="point" item="p">
+                                    						<tr><td>{$p.operation}</td><td>{$p.point}</td><td>{$p.createtime}</td><td>{$p.remark}</td></tr>
+                                    						</foreach>
+                                    					</tbody>
+                                					</table>
+
+		                                        </div>
+		                                        <div id="overview" class="tab-pane active">
+		                                            <div class="task-container">
+					                                    <ul class="tasks-list">
+					                                    	<foreach name="customer" item="c">
+					                                        <li class="task-item">
+					                                            <div class="task-body">{$c.realname}&nbsp;&nbsp;{$c.province}.{$c.city}&nbsp;&nbsp;类型：<if condition="$c.type eq 0">客户<else />会员</if>&nbsp;&nbsp;性别：<if condition="$c.type eq 1">男<else />女</if>&nbsp;&nbsp;电话：<if condition="$c.office_tel eq ''">{$c.office_tel}</if><if condition="$c.mobile_tel eq ''">&nbsp;&nbsp;{$c.mobile_tel}</if></div>
+					                                            <div class="task-creator"><a href=""><i class="fa fa-edit"></i>修改</a> <em>|</em> <a href=""><i class="fa fa-info-circle"></i>收货地址</a> <em>|</em> <a href=""><i class="fa fa-info-circle"></i>跟进</a> <em>|</em> <a href=""><i class="fa fa-info-circle"></i>血糖</a></div>
+					                                            <div class="task-assignedto">{$c.createtime}&nbsp;&nbsp;{$c.timeago}</div>
+					                                        </li>
+					                                       	</foreach>
+					                                    </ul>
+					                                </div>
+		                                        </div>
+		                                        <div id="timeline" class="tab-pane">
+		                                        	<div class="task-container">
+					                                    <ul class="tasks-list">
+					                                    	<foreach name="order" item="d">
+					                                        <li class="task-item">
+					                                            <div class="task-body">订单号：{$d.ordernum}&nbsp;&nbsp;金额:{$d.preferentialprice}元&nbsp;&nbsp;{$d.address}</div>
+					                                            <div class="task-creator">状态：{$d.status}</div>
+					                                            <div class="task-assignedto">{$d.createtime}&nbsp;&nbsp;{$d.timeago}</div>
+					                                        </li>
+					                                       	</foreach>
+					                                    </ul>
+					                                </div>
+		                                        </div>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                        </div>
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+
+<script>
+
+</script>
+</body>
+<!--  /Body -->
+</html>

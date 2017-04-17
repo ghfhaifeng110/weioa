@@ -1,0 +1,94 @@
+<{include file="head.html"}>
+</head>
+
+<body>
+<{include file="top.html"}>
+
+<div class="main-container container-fluid">
+	<div class="page-container">
+        <{include file="nav_left.html"}>
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  <{$node_name}> </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+        	<div class="row">
+        		<div class="col-lg-5 col-sm-5 col-xs-12">
+        			<table class="table table-hover table-striped table-bordered">
+                        <thead class="bordered-blue">
+                            <tr><th>名称</th><th>状态</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                            <tr><td>名称</td><td>状态</td></tr>
+                        </tbody>
+                    </table>
+
+        		</div>
+        		<div class="col-lg-7 col-sm-7 col-xs-12">
+    				<div class="well with-header">
+                        <div class="header bordered-sky" style="">
+                            <h4 style="float:left;">权限组</h4>
+                            <div class="header-buttons" style="float:right;">
+                                <a class="btn btn-primary btn-sm" href="#">
+                                    <i class="fa fa-plus-square-o"></i> <span class="text">新增</span>
+                                </a>
+                                <a class="btn btn-primary btn-sm" href="">
+                                    <i class="fa fa-edit"></i><span class="text">修改</span>
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="#">
+                                    <i class="fa fa-trash-o"></i><span class="text">删除</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="horizontal-form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">排序</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="inputEmail3" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">状态</label>
+                                    <div class="col-sm-9 ">
+                                        <div class="radio left">
+                                            <label><input name="form-field-radio" type="radio" class="colored-blue"><span class="text"> 开启</span></label>
+                                        </div>
+                                        <div class="radio left">
+                                            <label><input name="form-field-radio" type="radio" class="colored-danger"><span class="text"> 停止</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script src="<{$APP_URL}>/themes/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="<{$APP_URL}>/themes/js/bootbox.js"></script>
+<script>
+$(document).ready(function(e) {
+
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+.stock-td{margin-bottom:0px;}
+</style>
+</head>
+
+<body>
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 产品管理 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_product" >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">产品列表</span>
+                            <div class="widget-buttons"><a href="{:U('Product/addProduct')}"><i class="fa fa-plus-square-o"></i> 添加产品</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+	                                <label>标题：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+	                                <label>编号：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+	                                <label><button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>编号</th><th>名称</th><th>图片</th><th>规格</th><th>数量(单位)</th><th>单价(元)</th><th>折扣</th><th>时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="propage">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                	</div>
+                </div>
+        	</div>
+    	</div>
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+
+$(document).ready(function(e) {
+    
+    getProList('{:U("Product/getProList")}',{'action':'getProList'});
+});
+
+//$('#dataList').on('click','.del',function(){
+//	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+//	if (confirm(msg)==false)
+//	{ 
+//		return false; 
+//	}
+//	var id = $(this).attr('data-id');
+//	$('#result').html("数据处理中...");
+//	$.ajax({
+//      type: "POST",
+//      url: '{:U("Product/delProduct")}',
+//		data:{"id":id},
+//		dataType: "json",
+//		success: function(res)
+//		{
+//			location.href = '{:U("Product/stock")}';
+//		}
+//			
+//	})
+//})
+
+//加载列表数据
+function getProList(url,data){
+	data = data || {};
+	url = url || ''; 
+	
+	$("#dataList").html("<tr><td colspan='9'>数据加载中......</td></tr>");
+	
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.shop_num+'</td>';
+				html += '<td>'+v.title+'</td>';
+				html += '<td><img src='+v.picurl+' style="height:40px;" /></td>';
+				html += '<td>'+v.shop_spec+'</td>';
+				html += '<td>'+v.sum+' '+v.shop_unit+'</td>';
+				html += '<td>'+v.retailprice+'</td>';
+				html += '<td>'+v.discount+'</td>';
+				html += '<td>'+v.createtime+'</td>';
+				html += '<td><a href="javascript:void(0)" class="red"><i class="fa fa-trash-o text-primary danger"></i> 删除</a></td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			
+			bindListener();
+			
+			$('#propage ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#propage ul').empty();
+		}
+	})
+}
+
+</script>
+</body>
+</html>

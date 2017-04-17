@@ -1,0 +1,155 @@
+<include file="public/head" />
+<style type="text/css">
+#positionlist tr{ cursor: pointer;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 设置 </small><small><i class="fa fa-angle-right"></i>  产品分类 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+        	<div class="row">
+        		<div class="col-lg-6 col-sm-6 col-xs-12 sub_left_menu">
+					<div class="well">
+						<ul class="tree_menu">
+							<volist name="category" id="v">
+							<li><a class="" data="{$v.id}" title="{$v.title}" pid="{$v.pid}" ><i class="fa fa-angle-right level1"></i><span>{$v.title}</span></a>
+								<if condition="$v['data'] neq ''">
+								<ul class="tree_menu">
+									<volist name="v['data']" id="d">
+									<li><a class="" data="{$d.id}" title="{$d.title}" pid="{$d.pid}" ><i class="fa fa-angle-right level2"></i><span>{$d.title}</span></a></li>
+									</volist>
+								</ul>
+								</if>
+							</li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+
+        		<div class="col-lg-6 col-sm-6 col-xs-12">
+    				<div class="well with-header">
+                        <div class="header bordered-sky" style="">
+                            <h4 style="float:left;"></h4>
+                            <div class="header-buttons" style="float:right;">
+                                <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="addCategory(1)">
+                                    <i class="fa fa-edit"></i> <span class="text">修改</span>
+                                </a>
+                                <a class="btn btn-blue btn-sm" href="javascript:void(0)" onclick="addCategory()">
+                                    <i class="fa fa-plus-square-o"></i> <span class="text">添加</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="horizontal-form">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label no-padding-right">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="title" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pid" class="col-sm-2 control-label no-padding-right">父级</label>
+                                    <div class="col-sm-9">
+                                        <select name="pid" id="pid" class="form-control">
+                                        	<option value="0">顶级</option>
+                                        	<foreach name="category" item="c">
+                                        		<option value="{$c.id}">{$c.title}</option>
+                                        	</foreach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="is_del" class="col-sm-2 control-label no-padding-right">状态</label>
+                                    <div class="col-sm-9">
+                                        <div class="radio left">
+                                            <label><input name="is_del" id="is_del" value="0" type="radio" class="colored-blue"><span class="text"> 启用</span></label>
+                                        </div>
+                                        <div class="radio left">
+                                            <label><input name="is_del" type="radio" value="1" class="colored-danger"><span class="text"> 禁用</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="categoryid" id="categoryid" value=""> 
+                            </form>
+                        </div>
+                    </div>
+
+        		</div>
+        	</div>
+        </div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+function addCategory(type = 0){
+	var title = $("#title").val();
+	var is_del = $("input[name=is_del]:checked").val();
+	//var categoryid = $("#categoryid").val();
+	var pid = $("#pid").val();
+	var ajax_rul = "";
+	
+	if(type == 0){
+		ajax_rul = "{:U('System/addCategory')}";
+	}else{
+		var categoryid = $("#categoryid").val();
+		
+		if(categoryid == ''){
+			bootbox.alert("请先从左侧选择需要修改的分类");
+			return false;
+		}
+		ajax_rul = "{:U('System/editCategory')}";
+	}
+	
+	if(title == ""){
+		alert("请填写名称!"); return false;
+	}
+	
+	$.ajax({
+		url:ajax_rul,
+		data:{'title':title,'is_del':is_del,'id':categoryid,'pid':pid},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			if(res.errcode == 0){
+//				if(categoryid == ""){
+//					$("<tr data='"+res.id+"' title='"+res.title+"' isdel="+is_del+"><td>"+res.id+"</td><td>"+res.title+"</td><td>"+res.is_del+"</td></tr>").appendTo("#categorylist");
+//					buildListener();
+//				}else{
+					location.href = "{:U('System/category')}";
+//				}
+				$("#title").val('');
+			}else{
+				alert(res.errmsg); return false;
+			}
+		}
+	});
+}
+
+$(".sub_left_menu .tree_menu a").click(function() {
+	$(".sub_left_menu .tree_menu a.active").removeClass("active");
+	$(this).addClass("active");
+	
+	var id = $(this).attr("data");
+	var title = $(this).attr('title');
+	var pid = $(this).attr('pid');
+	var is_del = $(this).attr('isdel');
+	
+	$("#title").val(title);
+	$("input[name='is_del'][value="+is_del+"]").attr("checked",true); 
+	$("#categoryid").val(id);
+	$("#pid").val(pid);
+	
+	return false;
+});
+
+</script>
+</body>
+</html>

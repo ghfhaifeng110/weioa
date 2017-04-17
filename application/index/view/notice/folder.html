@@ -1,0 +1,418 @@
+<{include file="head.html"}>
+</head>
+
+<body>
+<{include file="top.html"}>
+
+<div class="main-container container-fluid">
+	<div class="page-container">
+        <{include file="nav_left.html"}>
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 公告 </small><small><i class="fa fa-angle-right"></i>  <{$node_name}> </small></h4>
+            </div>
+            <div class="header-buttons"><a href="#" class="sidebar-toggler"><i class="fa fa-edit"></i></a></div>
+        </div>
+        <div class="page-body">
+        	<div class="row">
+        		<div class="col-lg-5 col-sm-5 col-xs-12">
+        			<div class="well">
+        				<div class="dd" id="dd-list1">
+                            <{function name=notices_folder}>
+        					<ol class="dd-list">
+                                <{foreach from=$data item=entry}>
+        						<li class="dd-item">
+        							<div class="dd-handle" node="<{$entry.id}>"><i class="fa fa-angle-right"></i> <{$entry.name}></div>
+        							<{if $entry.count neq 0}>
+                                        <{call name=notices_folder data=$entry.data[0]}>
+                                    <{/if}>
+        						</li>
+                                <{/foreach}>
+        					</ol>
+                            <{/function}>
+                            <{call name=notices_folder data=$notices_folder}>
+        				</div>
+        			</div>
+        		</div>
+        		<div class="col-lg-7 col-sm-7 col-xs-12">
+    				<div class="well with-header">
+                        <div class="header bordered-sky" style="">
+                            <h4 style="float:left;" id="folder_title">添加</h4>
+                            <div class="header-buttons" style="float:right;">
+                                <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="add_folder()">
+                                    <i class="fa fa-plus-square-o"></i> <span class="text">新增</span>
+                                </a>
+                                <a class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="save_folder()">
+                                    <i class="fa fa-edit"></i><span class="text">修改</span>
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="javascript:void(0)" onclick="del_folder()">
+                                    <i class="fa fa-trash-o"></i><span class="text">删除</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="horizontal-form">
+                            <form class="form-horizontal" role="form" id="folder_form">
+                                <input type="hidden" id="folder_id" name="folder_id" value="">
+                                <input type="hidden" id="admin" name="admin" value="">
+                                <input type="hidden" id="writer" name="writer" value="">
+                                <input type="hidden" id="reader" name="reader" value=""> 
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">名称</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="folder_name" name="folder_name" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">节点</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                        <input type="text" readonly class="form-control" id="foldername" name="foldername" value=""/>
+                                        <input type="hidden" id="folder_fid" name="folder_fid" value="">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modal-notice"><i class="fa fa-level-up"></i></button>
+                                        </span>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">管理</label>
+                                    <div class="col-sm-9">
+                                        <div id="admin_list" class="inputbox">
+                                            <a class="right input_btn" data-toggle="modal" data-target="#modal-user"> <i class="fa fa-user"></i> </a>
+                                            <div class="wrap">
+                                                <span class="address_list" id="folder_admin"></span>
+                                                <span class="text"><input class="letter" type="text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">写入/修改</label>
+                                    <div class="col-sm-9">
+                                        <div id="writer_list" class="inputbox">
+                                            <a class="right input_btn" data-toggle="modal" data-target="#modal-user"> <i class="fa fa-user"></i> </a>
+                                            <div class="wrap">
+                                                <span class="address_list" id="folder_writer"></span>
+                                                <span class="text"><input class="letter" type="text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">读取</label>
+                                    <div class="col-sm-9">
+                                        <div id="reader_list" class="inputbox">
+                                            <a class="right input_btn" data-toggle="modal" data-target="#modal-user"> <i class="fa fa-user"></i> </a>
+                                            <div class="wrap">
+                                                <span class="address_list" id="folder_reader"></span>
+                                                <span class="text"><input class="letter" type="text"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">排序</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="folder_sort" name="folder_sort" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">状态</label>
+                                    <label class="col-sm-9">
+                                        <label class="radio left">
+                                            <input name="is_del" id="is_del" value="0" class="colored-blue" type="radio">
+                                            <span class="text">开启 </span>
+                                        </label>
+                                        <label class="radio left ml10">
+                                            <input name="is_del" id="is_del" value="1" class="colored-danger" type="radio">
+                                            <span class="text">禁止 </span>
+                                        </label>
+
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+        		</div>
+        	</div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="modal-notice" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">节点选择</h4>
+            </div>
+            <div class="modal-body menu-list">
+                <div class="scroll" style="height: 250px;">
+                    <div class="well">
+                        <div class="dd" id="dd-list2">
+                            <ol class="dd-list">
+                                <li class="dd-item"><div class="dd-handle" node="0"><i class="fa fa-angle-right"></i> <span>根节点</span></div></li>
+                            </ol>
+                            <{function name=notices_folder1}>
+                            <ol class="dd-list">
+                                <{foreach from=$data item=entry1}>
+                                <li class="dd-item">
+                                    <div class="dd-handle" node="<{$entry1.id}>"><i class="fa fa-angle-right"></i> <span><{$entry1.name}></span></div>
+                                    <{if $entry1.count neq 0}>
+                                        <{call name=notices_folder1 data=$entry.data[0]}>
+                                    <{/if}>
+                                </li>
+                                <{/foreach}>
+                            </ol>
+                            <{/function}>
+                            <{call name=notices_folder1 data=$notices_folder}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关 闭</button>
+                <button type="button" class="btn btn-primary" onClick="ok_modal()">确 定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-user" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <button type="button" class="btn btn-primary pull-right" onClick="ok_modal1()">确 定</button>
+                <h4 class="modal-title" id="myModalLabel">节点选择</h4> 
+            </div>
+            <div class="modal-body menu-list">
+                <div class="scroll" style="height: 420px; ">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div><b style="padding-left:10px;">用户组</b></div>
+                            <div class="addr_list" style="height:390px;">
+                                <{foreach from=$user item=us}>
+                                <label class="checkbox left"><input type="checkbox" class="checkbox colored-blue" name="user_id" value="<{$us.id}>" empname="<{$us.emp_name}>"><span class="text"><{$us.emp_name}>/<{$us.emp_no}></span></label>
+                                <{/foreach}>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div><b style="padding-left:15%;">管理</b></div>
+                            <div class="clearfix" style="margin-bottom: 15px;">
+                                <a onclick="change_sel('user_admin')" class="btn btn-sm btn-primary pull-left" style="width:10%"><i class="fa fa-angle-double-right"></i></a>
+                                <div id="user_admin"><select class="form-control pull-right" style="width:85%;height:110px; margin-right:10px;" multiple="multiple"></select></div>
+                            </div>
+                            <div><b style="padding-left:15%;">修改/写入</b></div>
+                            <div class="clearfix" style="margin-bottom: 15px;">
+                                <a onclick="change_sel('user_writer')" class="btn btn-sm btn-primary pull-left" style="width:10%"><i class="fa fa-angle-double-right"></i></a>
+                                <div id="user_writer"><select class="form-control pull-right" style="width:85%;height:110px; margin-right:10px;" multiple="multiple"></select></div>
+                            </div>
+                            <div><b style="padding-left:15%;">读取</b></div>
+                            <div class="clearfix" style="margin-bottom: 15px;">
+                                <a onclick="change_sel('user_reader')" class="btn btn-sm btn-primary pull-left" style="width:10%"><i class="fa fa-angle-double-right"></i></a>
+                                <div id="user_reader"><select class="form-control pull-right" style="width:85%;height:110px; margin-right:10px;" multiple="multiple"></select></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="<{$APP_URL}>/themes/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="<{$APP_URL}>/themes/js/bootbox.js"></script>
+<script src="<{$APP_URL}>/themes/js/common.js"></script>
+<script>
+$(document).ready(function(e) {
+    $("#dd-list1 li div").unbind().click(function(){
+        $("#dd-list1 li div").each(function() {
+           $(this).removeClass("active"); 
+        });
+        $(this).addClass("active");
+        folder_id = $(this).attr("node");
+        $("#folder_id").val(folder_id);
+        
+        sendAjax('<{spUrl c=$c a=$a t=getfolder}>',"id="+folder_id,function(result){
+            if(result){
+                $("#folder_title").text(result.name);
+                $("#folder_name").val(result.name);
+                $("#folder_sort").val(result.sort);
+                $("#admin").val(result.admin);
+                $("#folder_admin").html(conv_array_item(result.admin));
+                $("#writer").val(result.writer);
+                $("#folder_writer").html(conv_array_item(result.writer));
+                $("#reader").val(result.reader);
+                $("#folder_reader").html(conv_array_item(result.reader));
+                $("#folder_fid").val(result.fid);
+                $("#foldername").val(result.fname);
+                $("input[name='is_del'][value="+result.is_del+"]").attr("checked",true);
+            }else{
+                bootbox.alert({
+                    message:"获取数据失败，请重新点击获取数据！",
+                    title:"操作失败",
+                });
+            }
+        });
+    });
+
+    $("#dd-list2 li div").unbind().click(function(){
+        $("#dd-list2 li div").each(function() {
+           $(this).removeClass("active"); 
+        });
+        $(this).addClass("active");
+    });
+
+    /*单击删除*/
+    $(document).on("click", ".inputbox .address_list a.del", function() {
+        $(this).parent().parent().remove();
+    });
+    
+    /* 双击添加到收件人 因后添加的数据 所以需要用live函数 */
+    $("#user_admin select").on("dblclick", function() {
+        $(this).find("option:selected").remove();
+    });
+
+    $("#user_writer select").on("dblclick", function() {
+        $(this).find("option:selected").remove();
+    });
+
+    $("#user_reader select").on("dblclick", function() {
+        $(this).find("option:selected").remove();
+    });
+});
+function ok_modal(){
+    var did;
+    var dname;
+    
+    did = $("#dd-list2 div[class='dd-handle active']").attr("node");
+    $("#folder_fid").val(did);
+    dname = $("#dd-list2 div[class='dd-handle active'] span").html();
+    $("#foldername").val(dname);
+
+    $("#modal-notice").modal('hide');
+}
+function ok_modal1(){
+    $("#user_admin select option").each(function(i) {
+        emp_no = $(this).val();
+        name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+        html = conv_to_item(emp_no, name);
+        $("#admin_list .address_list", parent.document).append(html);
+    });
+
+    $("#user_writer select option").each(function(i) {
+        emp_no = $(this).val();
+        name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+        html = conv_to_item(emp_no, name);
+        $("#writer_list .address_list", parent.document).append(html);
+    });
+
+    $("#user_reader select option").each(function(i) {
+        emp_no = $(this).val();
+        name = jQuery.trim($(this).text()).replace(/<.*>/, '');
+        html = conv_to_item(emp_no, name);
+        $("#reader_list .address_list", parent.document).append(html);
+    });
+    
+    $("#modal-user").modal('hide');
+}
+/*把左侧内容添加到右侧*/
+function change_sel(id){
+    var text = "";
+    var val = "";
+    $(".addr_list input:checked[name='user_id']").each(function() {
+        text = $(this).parents("label").find("span").text();
+        val = $(this).val();
+        if ($("#" + id + " select option[value='" + val + "']").val() == undefined) {
+            $("<option></option>").val(val).text(text).appendTo("#" + id + " select");
+        };
+        console.info(val);
+    })
+}
+function add_folder(){
+    var st ="" ;
+    $("#admin").val("");
+    $("#admin_list span.address_list span").each(function() {
+        $("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+    })
+
+    $("#writer").val("");
+    $("#writer_list span.address_list span").each(function() {
+        $("#writer").val($("#writer").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+    })
+
+    $("#reader").val("");
+    $("#reader_list span.address_list span").each(function() {
+        $("#reader").val($("#reader").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+    })
+    
+    st = $("#folder_form").serialize();
+    
+    sendAjax('<{spUrl c=$c a=$a t=add}>',st,function(result){
+        if(result.success){
+            bootbox.alert("信息添加成功！",function(){
+                location.href='<{spUrl c=$c a=$a}>';
+            });
+        }else{
+            bootbox.alert("信息添加失败，请返回重新检查数据完整性！");
+        }
+    });
+}
+function save_folder(){
+    var st ="" ;
+    var folder_id = $("#folder_id").val();
+    
+    if(folder_id == ""){
+        bootbox.alert("请在左侧选择需要修改的选项！");
+    }else{
+        $("#admin").val("");
+        $("#admin_list span.address_list span").each(function() {
+            $("#admin").val($("#admin").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+        })
+
+        $("#writer").val("");
+        $("#writer_list span.address_list span").each(function() {
+            $("#writer").val($("#writer").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+        })
+
+        $("#reader").val("");
+        $("#reader_list span.address_list span").each(function() {
+            $("#reader").val($("#reader").val() + $(this).text().replace(';', '') + '|' + $(this).attr("data") + ";")
+        })
+    
+        st = $("#folder_form").serialize();
+        
+        sendAjax('<{spUrl c=$c a=$a t=save}>',st,function(result){
+            if(result.success){
+                bootbox.alert("信息修改成功！",function(){
+                    location.href='<{spUrl c=$c a=$a}>';
+                });
+            }else{
+                bootbox.alert("信息修改失败，请返回重新检查数据完整性！");
+            }
+        });
+    }
+}
+function del_folder(){
+    var folder_id = $("#folder_id").val();
+    
+    if(folder_id == ""){
+        bootbox.alert("请在左侧选择需要删除的选项！");
+    }else{
+        sendAjax('<{spUrl c=$c a=$a t=del}>/fid/'+folder_id,"",function(result){
+            if(result.success){
+                location.href='<{spUrl c=$c a=$a}>';
+            }else{
+                bootbox.alert("删除信息失败，请重新检查数据！");
+            }
+        });
+    }
+}
+</script>
+</body>
+</html>

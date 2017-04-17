@@ -1,0 +1,87 @@
+<script src="__PUBLIC__layui.js?t=1484130829910" charset="utf-8"></script>
+<script src="__JS__jquery-2.1.2.min.js" charset="utf-8"></script>
+<script>
+layui.config({
+    base: '__PUBLIC__',
+    version: '1484130829910'
+}).use(['global','element'],function(){
+    var $ = layui.jquery;
+    var element = layui.element();
+
+    //顶部菜单点击
+    $("#top-nav li").click(function(){
+        var data_id = $(this).attr("data-id");
+        var html = "";
+        
+        sendAjax('{:url("Index/getMenu")}',"data_id=" + data_id, function(res){
+            console.info(res);
+            $(".layui-nav-tree").html("");
+
+            if(res){
+                $.each(res,function(index,item){
+                    html += '<li class="layui-nav-item" data-id="'+ item.id +'">';
+                    html += '<a class="javascript:;" data-id1="'+ item.parent_id +'" data-id2="'+ item.id +'" data-id3="" href="javascript:;" data-href=';
+                    if(item.url){
+                        html += '/index/' + item.url + '/mid/' + item.parent_id;
+                    }else{
+                        html += 'javascript:;';
+                    }
+                    html += '><i class="layui-icon">';
+                    if(item.icon){
+                        html += item.icon;
+                    }
+                    html += '</i>' + item.name + '</a>';
+
+                    //下级菜单内容
+                    if(item.child){
+                        html += '<dl class="layui-nav-child">';
+                        $.each(item.child, function(i,m){
+                            html += '<dd class="" data-id="'+ m.id +'"><a data-id1="'+ item.parent_id +'" data-id2="'+ m.parent_id +'" data-id3="'+ m.id +'" href="javascript:;" data-href="';
+                            if(m.url){
+                                html += '/index/' + m.url + '/mid/' + item.parent_id;
+                            }else{
+                                html += 'javascript:;';
+                            }
+                            html += '"><i class="layui-icon">';
+                            if(m.icon){
+                                html += m.icon;
+                            }
+                            html += '</i>'+ m.name +'</a></dd>';
+                        });
+                        html += '</dl>';
+                    }
+
+                    html += '</li>';
+                });
+                
+                if(html){
+                    $(".layui-nav-tree").append(html);
+                    element.init();
+                    buildListener();
+                }else{
+                    $(".layui-nav-tree").html("无数据!");
+                }
+            }
+        });
+    });
+
+	/*左侧菜单点击时 cookie处理*/
+	$(".layui-nav-tree a,.layui-nav-tree dd a").click(function(){
+		var data_id1 = $(this).attr('data-id1');
+		var data_id2 = $(this).attr('data-id2');
+		var data_id3 = $(this).attr('data-id3');
+		var data_href = $(this).attr('data-href');
+		
+		console.info(data_href);
+		
+		set_cookie("data_id1", data_id1);
+		set_cookie("data_id2", data_id2);
+		set_cookie("data_id3", data_id3);
+		
+		location.href = data_href;
+	});
+	
+	/*页面加载中菜单处理*/
+	setSelectMenu();
+});
+</script>

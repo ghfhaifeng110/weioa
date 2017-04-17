@@ -1,0 +1,81 @@
+{include file="public/head" /}
+</head>
+<body>
+    <div class="layui-layout layui-layout-admin">
+    	{include file="public/top" /}
+        <div class="layui-body site-demo">
+			<div class="layui-body-left">
+				<fieldset class="layui-elem-field site-demo-button" style="background:#f5f5f5;">
+					<legend>组织结构</legend>
+  					{$dept}
+				</fieldset>
+			</div>
+			<div class="layui-body-right">
+				<div class="layui-btn-group">
+					<button class="layui-btn layui-btn-danger layui-btn-small layui-btn-group-right">原始按钮</button>
+					<em>|</em>
+					<button class="layui-btn layui-btn-small layui-btn-group-right">原始按钮</button>
+					<button class="layui-btn layui-btn-small layui-btn-group-right">原始按钮</button>
+				</div>
+				<form class="layui-form" style="margin-top:10px; float:left;width:97%;background:#f5f5f5; border:#e2e2e2 1px solid; padding:10px;">
+					<input type="hidden" name="id" id="id">
+					<input type="hidden" name="opmode" id="opmode" value="">
+					<div class="layui-form-item">
+						<label class="layui-form-label">名称</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">上级</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+							<a class='add-on' id="">选择</a>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">排序</label>
+						<div class="layui-input-block">
+							<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">状态</label>
+						<div class="layui-input-block">
+							<input type="radio" name="sex" value="0" title="启用" checked="">
+							<input type="radio" name="sex" value="1" title="禁用">
+						</div>
+					</div>
+				</form>
+			</div>
+        </div>
+        <div class="layui-footer footer footer-demo" style="height:1px;"></div>
+        <div class="site-tree-mobile layui-hide"><i class="layui-icon">&#xe602;</i></div>
+        <div class="site-mobile-shade"></div>
+    </div>
+{include file="public/footer" /}
+<script>
+layui.use('layer', function(){
+	// layer.open({
+	// 	type: 1,
+	// 	skin: 'layui-layer-rim', //加上边框
+	// 	area: ['420px', '240px'], //宽高
+	// 	content: 'html内容'
+	// });
+
+	$(".tree_menu a").click(function() {
+		$(".tree_menu a.active").removeClass("active");
+		$(this).addClass("active");
+		sendAjax("{:url('Company/deptDetail')}", "id=" + $(this).attr("node"), function(data) {
+			for (var s in result.data) {
+				set_val(s, result.data[s]);
+			}
+			$("#dept_name").val($("#dept_list option[value='" + $("#pid").val() + "']").text());
+			$("#opmode").val("edit");
+		});
+		return false;
+	});
+});
+</script>
+</body>
+</html>

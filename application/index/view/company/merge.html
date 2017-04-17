@@ -1,0 +1,397 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.radio label{padding-left:0px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户管理 </small><small><i class="fa fa-angle-right"></i>  客户合并 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+            	<div class="horizontal-form" id="user_list">
+                    <form role="form" id="form_data" class="form-horizontal">
+		                <div class="col-xs-5 col-md-5">
+							<div class="widget flat radius-bordered">
+		                        <div class="widget-header bordered-bottom bordered-themeprimary">
+		                            <i class="widget-icon fa fa-file"></i>
+		                            <span class="widget-caption"><strong>{$user1.realname}</strong> 的资料</span>
+		                        </div>
+		                        <div class="widget-body">
+				                    <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">姓名:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="realname" id="realname" value="{$user1.realname}" type="radio" class="colored-default"><span class="text"> {$user1.realname}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                    	<div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">性别:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="sex" id="sex" value="{$user1.sex}" type="radio" class="colored-default"><span class="text"> <if condition="$user1.sex eq 1">男<else />女</if></span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">坐机:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="office_tel" id="office_tel" value="{$user1.office_tel}" type="radio" class="colored-default"><span class="text"> {$user1.office_tel}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">手机号:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="mobile_tel" id="mobile_tel" value="{$user1.mobile_tel}" type="radio" class="colored-default"><span class="text"> {$user1.mobile_tel}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">所在地:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="cityid" id="cityid" value="{$user1.provinceid},{$user1.cityid}" type="radio" class="colored-default"><span class="text"> {$user1.cityname}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">地址:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="address" id="address" value="{$user1.address}" type="radio" class="colored-default"><span class="text"> {$user1.address}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                   		<div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">邮箱:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="email" id="email" value="{$user1.email}" type="radio" class="colored-default"><span class="text"> {$user1.email}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">生日:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="birthday" id="birthday" value="{$user1.birthday}" type="radio" class="colored-default"><span class="text"> {$user1.birthday}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">配偶姓名:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="spousename" id="spousename" value="{$user1.spousename}" type="radio" class="colored-default"><span class="text"> {$user1.spousename}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">配偶生日:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="spousebirthday" id="spousebirthday" value="{$user1.spousebirthday}" type="radio" class="colored-default"><span class="text"> {$user1.spousebirthday}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">职业:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="occupation" id="occupation" value="{$user1.occupation}" type="radio" class="colored-default"><span class="text"> {$user1.occupation}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">爱好:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="hobby" id="hobby" value="{$user1.hobby}" type="radio" class="colored-default"><span class="text"> {$user1.hobby}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">病史:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="medicalhistory" id="medicalhistory" value="{$user1.medicalhistory}" type="radio" class="colored-default"><span class="text"> {$user1.medicalhistory}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">目前用药:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="pharmacy" id="pharmacy" value="{$user1.pharmacy}" type="radio" class="colored-default"><span class="text"> {$user1.pharmacy}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">工作状态:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="jobstatus" id="jobstatus" value="{$user1.job_status}" type="radio" class="colored-default"><span class="text"> {$user1.job_status}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">录入时间:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><span class="text"> {$user1.createtime}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+		                		</div>
+		                    </div>
+		                
+		                </div>
+		                <dov class="col-xs-2 col-md-2" style="top:200px;">
+		                	<a class="btn btn-primary btn-block" onclick="merge({$user1.id},{$user2.id})"><i class="fa fa-chevron-left"></i> 合并到</a>
+		                	<a class="btn btn-primary btn-block" onclick="merge({$user2.id},{$user1.id})">合并到  <i class="fa fa-chevron-right"></i></a>
+		                </dov>
+		                <div class="col-xs-5 col-md-5">
+							<div class="widget flat radius-bordered">
+		                        <div class="widget-header bordered-bottom bordered-themeprimary">
+		                            <i class="widget-icon fa fa-file"></i>
+		                            <span class="widget-caption"><strong>{$user2.realname}</strong> 的资料</span>
+		                        </div>
+		                        <div class="widget-body">
+				                    <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">姓名:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="realname" id="realname" value="{$user2.realname}" type="radio" class="colored-default"><span class="text"> {$user2.realname}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                    	<div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">性别:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="sex" id="sex" value="{$user2.sex}" type="radio" class="colored-default"><span class="text"> <if condition="$user2.sex eq 1">男<else />女</if></span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">坐机:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="office_tel" id="office_tel" value="{$user2.office_tel}" type="radio" class="colored-default"><span class="text"> {$user2.office_tel}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">手机号:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="mobile_tel" id="mobile_tel" value="{$user2.mobile_tel}" type="radio" class="colored-default"><span class="text"> {$user2.mobile_tel}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">所在地:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="cityid" id="cityid" value="{$user2.provinceid},{$user2.cityid}" type="radio" class="colored-default"><span class="text"> {$user2.cityname}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">地址:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="address" id="address" value="{$user2.address}" type="radio" class="colored-default"><span class="text"> {$user2.address}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                   		<div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">邮箱:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="email" id="email" value="{$user2.email}" type="radio" class="colored-default"><span class="text"> {$user2.email}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">生日:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="birthday" id="birthday" value="{$user2.birthday}" type="radio" class="colored-default"><span class="text"> {$user2.birthday}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">配偶姓名:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="spousename" id="spousename" value="{$user2.spousename}" type="radio" class="colored-default"><span class="text"> {$user2.spousename}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">配偶生日:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="spousebirthday" id="spousebirthday" value="{$user2.spousebirthday}" type="radio" class="colored-default"><span class="text"> {$user2.spousebirthday}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">职业:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="occupation" id="occupation" value="{$user2.occupation}" type="radio" class="colored-default"><span class="text"> {$user2.occupation}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">爱好:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="hobby" id="hobby" value="{$user2.hobby}" type="radio" class="colored-default"><span class="text"> {$user2.hobby}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">病史:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="medicalhistory" id="medicalhistory" value="{$user2.medicalhistory}" type="radio" class="colored-default"><span class="text"> {$user2.medicalhistory}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">目前用药:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="pharmacy" id="pharmacy" value="{$user2.pharmacy}" type="radio" class="colored-default"><span class="text"> {$user2.pharmacy}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">工作状态:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><input name="jobstatus" id="jobstatus" value="{$user2.job_status}" type="radio" class="colored-default"><span class="text"> {$user2.job_status}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+					                <div class="row">
+				                        <div class="form-group">
+					                        <label class="col-sm-3 control-label text-right">录入时间:</label>
+					                        <div class="col-sm-8"> 
+						                        <div class="radio left">
+							                        <label><span class="text"> {$user2.createtime}</span></label>
+							                    </div>
+						                    </div>
+					                    </div>
+					                </div>
+		                		</div>
+		                    </div>
+		                
+		                </div>
+                    </form>
+        		</div>
+            </div>
+    	</div>
+    </div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script Charset="UTF-8" Type="Text/JavaScript"  >
+function merge(user1,user2){
+	var vars = $("#user_list input:radio:checked").serialize().replaceAll("&","#");
+	
+	console.info(vars);
+	$.ajax({
+		url:'{:U("Customer/mergeSave")}',
+		data:{'user1':user1,'user2':user2,'vars':vars},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+		}
+	});
+}
+</script>
+</body>
+</html>

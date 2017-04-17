@@ -1,0 +1,144 @@
+<include file="public/head" />
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 系统管理 </small><small><i class="fa fa-angle-right"></i>  权限分配 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+        	<div class="widget">
+                <div class="widget-header bordered-bottom">
+                    <span class="widget-caption">权限分配</span>
+                    <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="save_role"><i class="fa fa-plus-square-o"></i> 保 存</a></div>
+                </div>
+                <div class="widget-body no-padding">
+                    <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                        <div class="row">
+                    		<div class="col-lg-4 col-sm-4 col-xs-12">
+                    			<table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue"><tr><th>#</th><th>名称</th></tr></thead>
+                                    <tbody id="role_list">
+                                        <foreach name="role" item="r">
+                                        <tr id="{$r.id}"><td align="center"><label class="radio"><input type="radio" name="roleid" id="roleid" class="colored-blue" value="{$r.id}"><span class="text">&nbsp;</span></label></td><td>{$r.name}</td></tr>
+                                        </foreach>
+                                    </tbody>                                
+                                </table>
+                    		</div>
+                    		<div class="col-lg-8 col-sm-8 col-xs-12">
+                    		    <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue"><tr><th>#</th><th>编号</th><th>姓名</th><th>职位</th><th>性别</th></tr></thead>
+                                    <tbody id="dataList"></tbody>                              
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination"></ul>
+                                    </div>
+                                </div>
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#save_role").click(function(){
+		var roleid=$("#role_list input[name=roleid]:checked").val();
+
+		if(roleid == "" || typeof(roleid) == "undefined"){
+			bootbox.alert("请选择左侧相应的权限");return false;
+		}
+		console.info(roleid);
+		
+		var userid='';
+		$("#dataList input:checkbox[name=userid]:checked").each(function(){
+		    userid += $(this).val()+",";
+		});
+		if(userid == "" || typeof(userid) == "undefined"){
+			bootbox.alert("请选择右侧需要分配权限的用户");return false;
+		}
+		console.info(userid);
+		
+		$.ajax({
+			url:'{:U("System/saveRoleUser")}',
+			data:{'roleid':roleid,'userid':userid},
+			dataType:'json',
+			type:'post',
+			success:function(res){
+				console.info(res);
+			}
+		});
+		
+	});
+});
+
+function buildListener(){
+	var userid = "";
+    $("#dataList tr").on('click',function(){
+        $("#dataList tr").each(function() {
+            $(this).attr("class", "");
+        });
+        $(this).attr("class", "active");
+        userid = $(this).attr("id");
+
+        $.ajax({
+            url:'{:U("User/getUserRole")}',
+            data:{'userid':userid},
+            dataType:"json",
+            type:"post",
+            success: function(res){
+            	console.info(res);
+	            $("#role_list input:checkbox").prop('checked',false);
+                if(res){
+                    $.each(res,function(idx,r){
+                        $("input[id='roleid'][value="+r.role_id+"]").prop('checked','true');
+                    });
+                }
+            }
+        });
+    });
+}
+
+getList('{:U("User/getUserList")}',{});
+
+//加载列表数据
+function getList(url,data){
+    data = data || {};
+    url = url || ''; 
+    $.get(url,data,function(rs){
+        console.info(rs);
+        if( rs.count>0){
+            var html = '';
+            $.each(rs.list,function(k,v){
+                html += '<tr id='+v.id+'>';
+                html += '<td><label class="checkbox"><input type="checkbox" class="colored-blue" name="userid" id="userid" value="'+v.id+'"><span class="text">&nbsp;</span></label></td>';
+                html += '<td>'+v.username+'</td>';
+                html += '<td>'+v.real_name+'</td>';
+                html += '<td>'+v.position_id+'</td>';
+                html += '<td>'+v.sex+'</td>';
+                html += '</tr>';
+            })
+            $('#dataList').html(html);
+            $('#page ul').html(rs.page);
+            buildListener();
+        }else{
+            $('#dataList').empty();
+            $('#page ul').empty();
+        }
+    })
+}
+</script>
+</body>
+</html>

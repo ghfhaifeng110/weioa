@@ -1,0 +1,39 @@
+<div class="layui-header header header-demo">
+    <div class="layui-main">
+        <a class="logo" href="/">{$default_title}</a>
+        <ul class="layui-nav" id="top-nav" style="right:180px;">
+            {volist name="menu" id="m" key="k"}
+            <li class="layui-nav-item {if condition='$mid eq $m.id'}layui-this{/if}" data-id="{$m.id}"><a href="javascript:;">{$m.name}</a></li>
+            {/volist}
+        </ul>
+        <ul class="layui-nav user-info">
+            <li class="layui-nav-item">
+                <a href="javascript:;"><img src="__IMAGES__tx04.jpg" class="layui-circle"><span>&nbsp;&nbsp;&nbsp;&nbsp;{$Think.session.user.user_name}</span><span class="layui-nav-more"></span></a>
+                <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                    <dd><a href=""><i class="layui-icon">&#xe77b;</i>修改密码</a></dd>
+                    <dd><a href=""><i class="layui-icon">&#xe799;</i>提醒信息</a></dd>
+                    <dd><a href=""><i class="layui-icon">&#xe6d5;</i>账号信息</a></dd>
+                    <dd><a href="{:url('Index/logout')}"><i class="layui-icon red">&#xe68e;</i>退出</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree site-demo-nav">
+            {volist name="menu_child" id="mm" key="k"}
+            <li class="layui-nav-item" data-id="{$mm.id}">
+                <a class="" data-id1="{$mm.parent_id}" data-id2="{$mm.id}" data-href='{if condition="($mm['child'] eq '') or ($mm['child'] eq 'null') "}{:Url($mm['url'],['mid'=>$mm['parent_id']])}{else /}javascript:;{/if}' href="javascript:;">{if condition="$mm.icon"}<i class="layui-icon">{$mm.icon}</i>{/if}{$mm.name}</a>
+                {if condition="$mm.child neq ''"}
+                <dl class="layui-nav-child">
+                    {volist name="mm['child']" id="mn" key="kn"}
+                    <dd class="" data-id="{$mn.id}"><a data-id1="{$mm.parent_id}" data-id2="{$mn.parent_id}" data-id3="{$mn.id}" data-href="{:url($mn['url'],['mid'=>$mm['parent_id']])}" href="javascript:;">{if condition="$mn.icon"}<i class="layui-icon">{$mn.icon}</i>{/if}{$mn.name}</a></dd>
+                    {/volist}
+                </dl>
+                {/if}
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>

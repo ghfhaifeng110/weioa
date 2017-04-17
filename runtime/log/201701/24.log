@@ -1,0 +1,408 @@
+[ 2017-01-24T15:04:35+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.165514s][吞吐率：0.86req/s] [内存消耗：2,319.48kb] [文件加载：48]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.023669s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.011691s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000787s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.001092s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000771s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000622s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000678s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000720s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000708s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.023041s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000673s ]
+
+---------------------------------------------------------------
+[ 2017-01-24T15:16:55+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.146245s][吞吐率：0.87req/s] [内存消耗：2,319.13kb] [文件加载：48]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.007756s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.013197s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000744s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.000786s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000789s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000508s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000568s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000507s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000582s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.012620s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000651s ]
+
+---------------------------------------------------------------
+[ 2017-01-24T15:18:23+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.121387s][吞吐率：0.89req/s] [内存消耗：2,319.16kb] [文件加载：48]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003645s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.016989s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000588s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.000520s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000740s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000378s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000523s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000479s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000610s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.012465s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000643s ]
+
+---------------------------------------------------------------
+[ 2017-01-24T15:46:02+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.183809s][吞吐率：0.84req/s] [内存消耗：2,170.16kb] [文件加载：46]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.013746s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.074292s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000971s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.000742s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000655s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000583s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000676s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000695s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000806s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.012100s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000605s ]
+
+---------------------------------------------------------------
+[ 2017-01-24T15:47:46+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.112074s][吞吐率：0.90req/s] [内存消耗：2,170.16kb] [文件加载：46]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.003839s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.012889s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000582s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.000671s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000617s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000443s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000583s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000503s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000491s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.012843s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000659s ]
+
+---------------------------------------------------------------
+[ 2017-01-24T16:10:54+08:00 ] 192.168.70.9 192.168.70.9 GET /index/Company/dept/mid/1
+[ log ] 192.168.70.9:97/index/Company/dept/mid/1 [运行时间：1.189220s][吞吐率：0.84req/s] [内存消耗：2,319.25kb] [文件加载：48]
+[ info ] [ LANG ] D:\www\weioa\thinkphp\lang\zh-cn.php
+[ info ] [ ROUTE ] array (
+  'type' => 'module',
+  'module' => 
+  array (
+    0 => 'index',
+    1 => 'Company',
+    2 => 'dept',
+  ),
+)
+[ info ] [ HEADER ] array (
+  'cookie' => 'CNZZDATA30088308=cnzz_eid%3D683259901-1484699979-%26ntime%3D1484710790; weidata_id1=1; weidata_id2=60; weidata_id3=65; PHPSESSID=5dneeuboa4im2ge015nujml7m4; _identity=b63b451959c176400f6676671ab0d4c3e1f541b22dd6b06e21336ffcbcb9e825a%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A14%3A%22%5B%221%22%2C%221%22%2C7200%5D%22%3B%7D',
+  'accept-language' => 'zh-CN',
+  'accept-encoding' => 'gzip, deflate',
+  'referer' => 'http://192.168.70.9:97/index/Index/index',
+  'dnt' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Maxthon/5.0.2.1400 Chrome/47.0.2526.73 Safari/537.36',
+  'upgrade-insecure-requests' => '1',
+  'x-devtools-emulate-network-conditions-client-id' => 'DE9638C6-6E52-49C9-A603-B651E92093EA',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+  'cache-control' => 'max-age=0',
+  'connection' => 'keep-alive',
+  'host' => '192.168.70.9:97',
+  'content-length' => '',
+  'content-type' => '',
+)
+[ info ] [ PARAM ] array (
+  'mid' => '1',
+)
+[ info ] [ SESSION ] INIT array (
+  'id' => '',
+  'var_session_id' => '',
+  'prefix' => 'wei',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 86400,
+)
+[ info ] [ SESSION ] INIT array (
+  'prefix' => 'menu',
+  'type' => '',
+  'auto_start' => true,
+  'expire' => 3600,
+)
+[ info ] [ DB ] INIT mysql
+[ info ] [ RUN ] app\index\controller\Company->dept[ D:\www\weioa\application\index\controller\Company.php ]
+[ info ] [ VIEW ] D:\www\weioa\public/../application/index\view\company\dept.html [ array (
+  0 => 'default_title',
+  1 => 'menu',
+  2 => 'mid',
+  3 => 'menu_child',
+  4 => 'dept',
+) ]
+[ info ] [ LOG ] INIT File
+[ sql ] [ DB ] CONNECT:[ UseTime:1.002730s ] mysql:dbname=weioa;host=localhost;charset=utf8
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_menu` [ RunTime:0.048917s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `parent_id` = 0  AND `is_del` = 0 ORDER BY sort desc [ RunTime:0.000919s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 1 ORDER BY sort desc [ RunTime:0.000723s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 64 ORDER BY sort desc [ RunTime:0.000701s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 63 ORDER BY sort desc [ RunTime:0.000577s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 62 ORDER BY sort desc [ RunTime:0.000478s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 61 ORDER BY sort desc [ RunTime:0.000674s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_menu` WHERE  `is_del` = 0  AND `parent_id` = 60 ORDER BY sort desc [ RunTime:0.000513s ]
+[ sql ] [ SQL ] SHOW COLUMNS FROM `wei_dept` [ RunTime:0.014463s ]
+[ sql ] [ SQL ] SELECT * FROM `wei_dept` WHERE  `is_del` = 0 [ RunTime:0.000567s ]
+
+---------------------------------------------------------------

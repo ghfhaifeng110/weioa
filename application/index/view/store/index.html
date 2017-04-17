@@ -1,0 +1,337 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 门店管理 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_store" >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">门店列表</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="addstore_bt"><i class="fa fa-plus-square-o"></i> 添加门店</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1" method="post" action="">
+                                    <label>标题：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label>编号：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label><button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>编号</th><th>名称</th><th>类型</th><th>所在地</th><th>联系人</th><th>联系电话</th><th>时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+        			<div class="widget" style="display:none;" id="add_store">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加门店</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">名称：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="title" name="title" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在省：</label>
+	                                            <div class="col-sm-8"> 
+	                                                <select class="form-control" id="provinceid" name="provinceid">
+	                                                	<option value="0">选择所在省</option>
+	                                                	<foreach name="province" item="p"><option vlaue="{$p.id}">{$p.name}</option></foreach>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">类型：</label>
+	                                            <div class="col-sm-8">
+                                                    <div class="radio left">
+			                                            <label><input name="type" id="type" value="1" type="radio" class="colored-blue"><span class="text"> 门店</span></label>
+			                                        </div>
+			                                        <div class="radio left">
+			                                            <label><input name="type" id="type" type="radio" value="2" class="colored-blue"><span class="text"> 旗舰店</span></label>
+			                                        </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在市：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="cityid" name="cityid"></select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">联系人：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="linkman" name="linkman" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">地址：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="address" name="address" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">联系电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="linkway" name="linkway" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">备注：</label>
+	                                            <div class="col-sm-8">
+	                                                <textarea name="remark" id="remark" class="form-control" rows="3"></textarea>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-2 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="submit" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="storeid" id="storeid" value="" />
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+
+$("#provinceid").change(function(){
+	var parentId=$("#provinceid").get(0).selectedIndex*1+1;
+	console.info(parentId);
+	if(null!= parentId && ""!=parentId){		
+		$.ajax({
+			url:'{:U("Base/getCity")}',
+			data:{'parentid':parentId},
+			dataType:'json',
+			success:function(res){
+				console.info(res);
+				var options="<option value=''>选择所在城市</option>";
+				if(res.length>0){
+					for(var i=0;i<res.length;i++){
+						options+="<option value="+res[i].id+">"+res[i].name+"</option>";
+					}
+					$("#cityid").html(options);
+				}
+			}
+		});
+	}
+	else{
+		$("#cityid").html("");
+	}
+});
+
+
+$("#submit").click(function(){
+	var title = $("#title").val();
+	var type = $('input:radio[name=type]:checked').val();
+	var provinceid = $("#provinceid").get(0).selectedIndex*1+1;
+	var cityid = $("#cityid").val();
+	var linkman = $("#linkman").val();
+	var linkway = $("#linkway").val();
+	var address = $("#address").val();
+	var remark = $("#remark").val();
+
+    var storeid = $("#storeid").val();
+	
+	if(title == ""){
+		alert("请输入门店名称"); return false;
+	}
+	console.info(provinceid+'--'+cityid);
+	$.ajax({
+		url:'{:U("Store/operateStore")}',
+		data:{'title':title,'type':type,'provinceid':provinceid,'remark':remark,'linkman':linkman,'linkway':linkway,'cityid':cityid,'storeid':storeid,'address':address},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(storeid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("Store/index")}';
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {
+	$('#addstore_bt').click(function(){
+		$("#form_data input[type=text]").val("");
+		$("#remark").val("");
+		$("#provinceid").val("0");
+		$("#cityid").html("");
+		
+        $('#list_store').hide();
+        $('#add_store').slideDown('slow');
+    });
+    
+    getList();
+});
+
+function goback_send(){
+    $('#add_store').hide();
+    $('#list_store').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("Store/getStoreInfo")}',
+		data:{"id":id},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			$("#title").val(res.title);			
+			$("#linkman").val(res.linkman);
+			$("#linkway").val(res.linkway);
+			$('input:radio[name=type][value='+res.type+']').attr("checked",true);
+
+			if(res.provinceid == 0){
+				$("#provinceid").val(res.provinceid);
+			}else{
+				$("<option value="+res.provinceid+" selected>"+res.province+"</option>").appendTo("#provinceid");
+			}
+			if(res.cityid == 0){
+				$("#cityid").val(res.cityid);
+			}else{
+				$("<option value="+res.cityid+">"+res.city+"</option>").appendTo("#cityid");
+			}
+			//$("#provinceid").val(res.provinceid);
+			//$("#cityid").val(res.cityid);
+			$("#remark").val(res.remark);
+			$("#address").val(res.address);
+			$("#storeid").val(res.id);
+		}
+	});
+	
+	$("#customerid").val(id);
+	$('#list_store').hide();
+    $('#add_store').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+	$.ajax({
+        type: "POST",
+        url: '{:U("Store/delStore")}',
+		data:{"id":id},
+		dataType: "json",
+		success: function(res)
+		{
+			location.href = '{:U("Store/index")}';
+		}
+			
+	})
+})
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || '{:U("Store/getStoreList")}'; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.id+'</td>';
+				html += '<td>'+v.title+'</td>';
+				html += '<td>'+v.typename+'</td>';
+				html += '<td>'+v.province+'-'+v.city+'</td>';
+				html += '<td>'+v.linkman+'</td>';
+				html += '<td>'+v.linkway+'</td>';
+				html += '<td>'+v.createtime+'</td>';
+				html += '<td>';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a></td>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+</head>
+
+<body>
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 办公中心 </small><small><i class="fa fa-angle-right"></i>  日报审核 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_work">
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">日报审核</span>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1">
+                                    <label>状态：<select name="status" id="status" class="form-control"><option value="0">未审核</option><option value="1">已审核</option></select></label>
+                                    <label><button type="button" class="btn btn-primary" id="esearch"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>录入者</th><th>所在部门/职位</th><th>日报时间</th><th>提交时间</th><th>状态</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        	</div>
+    	</div>
+    	
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" style="width:800px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">工作日报详情</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div id="plan_list">
+                
+                </div>
+                <div class="row">
+                	<div class="col-sm-2 text-align-right"><span>附件：</span></div>
+                	<div class="col-sm-9" id="file_list">
+						
+                	</div>
+                </div>
+                <div class="row">
+                	<div class="col-sm-2 text-align-right"><span>审核状态：</span></div>
+                	<div class="col-sm-2">
+                		<div class="radio">
+					        <label><input name="sex" id="sex" value="2" type="radio" class="colored-blue" checked><span class="text"> 通过</span></label>
+					    </div>
+					</div>
+					<div class="col-sm-2">
+					    <div class="radio">
+					        <label><input name="sex" id="sex" type="radio" value="3" class="colored-danger"><span class="text"> 不通过</span></label>
+					    </div>
+                	</div>
+                </div>
+                
+                <div class="row">
+                	<div class="col-sm-2 text-align-right"><span>备注：</span></div>
+                	<div class="col-sm-9">
+                		<textarea name="replay" id="replay" class="form-control"></textarea>
+                	</div>
+                </div>
+                <hr />
+                <div class="row">
+		            <div class="form-group">
+			            <label class="col-sm-2 control-label no-padding-right"></label>
+			            <div class="col-sm-9">
+			                <button type="button" name="bt_submit" id="bt_submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">取消</button><input type="hidden" name="userid" id="userid" value="">
+			                <input type="hidden" name="workid" id="workid" value="" />
+			            </div>
+			        </div>
+			    </div>
+            </div>
+        </div>
+    </div>
+</div>
+    	
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+
+$(document).ready(function(e) {    
+    getList('{:U("Office/getWorkList")}',{'status':0,'type':'audit'});
+});
+
+$("#esearch").click(function(){
+	var status = $("#status").val();
+	
+	getList('{:U("Office/getWorkList")}',{'status':status,'type':'audit'});
+});
+
+$("#bt_submit").click(function(){
+	var workid = $("#workid").val();
+	var status = $("input[type=radio]:checked").val();
+	var replay = $("#replay").val();
+	
+	$.ajax({
+		type:"post",
+		url:"{:U('Office/workAudit')}",
+		data:{'workid':workid,'status':status,'replay':replay},
+		success:function(res){
+			console.info(res);
+			if(res.errcode == 0){
+				
+			}else{
+				
+			}
+		}
+	});
+});
+
+function buildListener(){
+	$('#dataList').on('click','.info',function(){
+		var workid = $(this).attr("data");
+		
+		$("#workid").val(workid);
+		
+		$.ajax({
+			url:'{:U("Office/getWorkInfo")}',
+			data:{'id':workid},
+			success:function(res){
+				console.info(res);
+				var plan_list = "";
+				$.each(res.plan,function(k,v){
+					plan_list += '<div class="row"><div class="col-sm-2 text-align-right"><span>工作计划：</span></div><div class="col-sm-9"><p class="text-muted">'+v.plan_name+'</p></div></div><div class="row"><div class="col-sm-2 text-align-right"><span>工作结果：</span></div><div class="col-sm-9"><p class="text-muted">'+v.plan_content+'</p></div></div><hr />';
+				});
+				$("#plan_list").append(plan_list);
+				
+				var file_list = "";
+				$.each(res.file,function(k,v){
+					file_list += '<p class="text-muted">'+v.filename+'<i class="fa fa-times red" style="cursor: pointer; margin-left:20px;" onclick=""></i></p>';
+				});
+				$("#file_list").append(file_list);
+				buildListener();
+			}
+		});
+		
+		$("#modal-info").modal("show");
+	});
+}
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || ''; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.user_names+'</td>';
+				html += '<td>'+v.dp_name+'</td>';
+				html += '<td>'+v.starttime+' -- '+v.endtime+'</td>';
+				html += '<td>'+v.create_time+'</td>';
+				html += '<td>'+v.status_name+'</td>';
+				html += '<td>';
+				if(v.status < 2){
+					html += '<a href="javascript:void(0)" data="'+v.id+'" class="info"><i class="fa fa-info text-primary"></i> 审核</a>';
+				}
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			buildListener();
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

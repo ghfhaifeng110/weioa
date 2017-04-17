@@ -1,0 +1,686 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户管理 </small><small><i class="fa fa-angle-right"></i>  客户列表 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_user" <if condition="$act neq ''">style="display:none;"</if> >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">客户列表</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" class="btn btn-primary white" data-toggle="maximize" id="adduser_bt"><i class="fa fa-plus-square-o"></i> 添加客户</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1">
+                                    <label>姓名：<input type="text" class="form-control input-sm" id="srealname" aria-controls="searchable"></label>
+                                    <label>客户级别：<select class="form-control" id="sgrade"><option value="">全部</option><foreach name="grade" item="d"><option value="{$d.id}">{$d.name}</option></foreach></select></label>
+                                    <label><button type="button" class="btn btn-primary" id="esearch"><i class="fa fa-search"></i> 搜索</button></label>
+                                    <br>
+                                    <label><button type="button" class="btn btn-success" id="selall"><i class="fa fa-check-square-o"></i> 全选</button></label>
+                                    <label><button type="button" class="btn btn-success" id="seldel"><i class="fa fa-trash-o"></i> 删除</button></label>
+                                    <label><button type="button" class="btn btn-success" id="merge"><i class="fa fa-code-fork"></i> 合并</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th><div class="checkbox"><label><input type="checkbox" class="colored-success"><span class="text">&nbsp;</span></label></div></th><th>编号</th><th>姓名</th><th>类型</th><th>积分</th><th>时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="customerid_value" id="customerid_value" value="">
+                            </div>
+                        </div>
+                	</div>
+        			<div class="widget" <if condition="$act eq ''">style="display:none;"</if> id="add_user">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加客户</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">推荐人：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="input-group">
+		                                                <input class="form-control" id="fromcustomer_id" type="text">
+		                                                <span class="input-group-addon primary" id="sel_customer">
+		                                                    <i class="fa fa-user"></i>
+		                                                </span>
+		                                                <input class="form-control" id="fromcustomerid" type="hidden" value="0">
+		                                            </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">姓名：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="realname" name="realname" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">客户级别：</label>
+	                                            <div class="col-sm-8"> 
+	                                                <select name="gradeid" id="gradeid">
+	                                                <foreach name="grade" item="g"><option value="{$g.id}">{$g.name}</option></foreach>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">配偶姓名：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="spousename" name="spousename" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">配偶生日：</label>
+	                                            <div class="col-sm-8"> 
+	                                                <div class="input-group">
+		                                                <input class="form-control date-picker" id="spousebirthday" type="text" data-date-format="yyyy-mm-dd">
+		                                                <span class="input-group-addon">
+		                                                    <i class="fa fa-calendar"></i>
+		                                                </span>
+		                                            </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">性别：</label>
+	                                            <div class="col-sm-8">
+                                                    <div class="radio left">
+			                                            <label><input name="sex" id="sex" value="1" type="radio" class="colored-blue"><span class="text"> 男</span></label>
+			                                        </div>
+			                                        <div class="radio left">
+			                                            <label><input name="sex" id="sex" type="radio" value="2" class="colored-danger"><span class="text"> 女</span></label>
+			                                        </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在省：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="provinceid" name="provinceid">
+	                                                	<option value="0">选择所在省</option>
+	                                                	<foreach name="province" item="p"><option vlaue="{$p.id}">{$p.name}</option></foreach>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">座机电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="office_tel" name="office_tel" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在市：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="cityid" name="cityid"></select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">移动电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="mobile_tel" name="mobile_tel" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">地址：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="address" name="address" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">积分：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="point" name="point" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">职业：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="occupation" name="occupation" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">爱好：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="hobby" name="hobby" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">工作状态：</label>
+	                                            <div class="col-sm-8">
+	                                                <select name="jobstatus" id="jobstatus">
+	                                                <option value="1">在职</option><option value="2">离职</option><option value="3">退休</option>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">以往病史及并发症：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="medicalhistory" name="medicalhistory" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">目前用药：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="pharmacy" name="pharmacy" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">邮箱：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="email" name="email" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">生日：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="input-group">
+		                                                <input class="form-control date-picker" id="birthday" type="text" data-date-format="yyyy-mm-dd">
+		                                                <span class="input-group-addon">
+		                                                    <i class="fa fa-calendar"></i>
+		                                                </span>
+		                                            </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-2 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="submit" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="customerid" id="customerid" value="" />
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-customer" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog" style="width:800px;">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">选择客户</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div class="scroll" style="height: auto; ">
+            		<div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+	                    <div class="well">
+	                        <label>名称： <input type="text" class="form-control" ></label>
+		                    <label style="margin-left:10px;"><button type="button" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+	                    </div>
+                    </div>
+                	<div class="row">
+                		<div class="col-md-12">
+							<div class="table-scrollable">
+                                <table class="table table-striped table-bordered table-hover">
+                                    <thead><tr><th>#</th><th>姓名</th><th>所在地</th><th>手机号</th><th>积分 </th></tr></thead>
+                                    <tbody id="data_customer_list">
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+						</div>
+                	</div>
+                	<div class="row">
+		                <div class="col-sm-6">
+		                    <div class="dataTables_info"><button type="button" class="btn btn-primary" data-dismiss="modal" name="customer_btn" id="customer_btn">确定</button></div>
+		                </div>
+		                <div class="col-sm-6">
+		                    <div class="dataTables_paginate paging_simple_numbers" id="cpage">
+		                      	<ul class="pagination">
+		                       	</ul>
+		                    </div>
+		                </div>
+		            </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datepicker.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script src="APP_NAME/Public/js/ajaxfileupload.js"></script>
+<script>
+$('#birthday').datepicker();
+$('#spousebirthday').datepicker();
+$("#customerid_value").val("");
+
+$("#sel_customer").click(function(){
+	$('#modal-customer').modal("show");
+	
+	getListC('{:U("Customer/getCustomerList")}',{'type':-1});
+});
+
+$("#provinceid").change(function(){
+	var parentId=$("#provinceid").get(0).selectedIndex*1+1;
+	console.info(parentId);
+	if(null!= parentId && ""!=parentId){		
+		$.ajax({
+			url:'{:U("Base/getCity")}',
+			data:{'parentid':parentId},
+			dataType:'json',
+			success:function(res){
+				console.info(res);
+				var options="<option value=''>选择所在城市</option>";
+				if(res.length>0){
+					for(var i=0;i<res.length;i++){
+						options+="<option value="+res[i].id+">"+res[i].name+"</option>";
+					}
+					$("#cityid").html(options);
+				}
+			}
+		});
+	}
+	else{
+		$("#cityid").html("");
+	}
+});
+
+$("#customer_btn").click(function(){
+	var customer_ids = "";
+	$("#data_customer_list input[name=customer_id]").each(function(i,item){
+		if($(this).val()){
+			customer_ids = $(this).attr("data");
+		}
+	});
+	
+	if(customer_ids == ""){
+		bootbox.alert("请选择推荐人"); return false;
+	}
+	
+	var customer_id = $("#data_customer_list input[name=customer_id]:checked").attr("data");
+	var customer_name = $("#data_customer_list input[name=customer_id]:checked").attr("data-name");
+	
+	$("#fromcustomer_id").val(customer_name);
+	$("#fromcustomerid").val(customer_id);
+	
+	$("#modal-customer").modal("hide");
+});
+
+$("#submit").click(function(){
+	var realname = $("#realname").val();
+	var gradeid = $("#gradeid").val();
+	var sex = $('input:radio[name=sex]:checked').val();
+	var birthday = $("#birthday").val();
+	var provinceid = $("#provinceid").get(0).selectedIndex*1+1;
+	var cityid = $("#cityid").val();
+	var office_tel = $("#office_tel").val();
+	var mobile_tel = $("#mobile_tel").val();
+	var address = $("#address").val();
+	var email = $("#email").val();
+	var spousename = $("#spousename").val();
+	var spousebirthday = $("#spousebirthday").val();
+	var occupation = $("#occupation").val();
+	var hobby = $("#hobby").val();
+	var medicalhistory = $("#medicalhistory").val();
+	var pharmacy = $("#pharmacy").val();
+	var jobstatus = $("#jobstatus").val();
+	var point = $("#point").val();
+	var fromcustomerid = $("#fromcustomerid").val();
+
+    var customerid = $("#customerid").val();
+	
+	if(realname == ""){
+		alert("请输入客户姓名"); return false;
+	}
+	console.info(provinceid+'--'+cityid);
+	$.ajax({
+		url:'{:U("Customer/operateCustomer")}',
+		data:{'realname':realname,'gradeid':gradeid,'sex':sex,'birthday':birthday,'provinceid':provinceid,'email':email,'office_tel':office_tel,'mobile_tel':mobile_tel,'cityid':cityid,'customerid':customerid,'address':address,'spousename':spousename,'spousebirthday':spousebirthday,'occupation':occupation,'hobby':hobby,'medicalhistory':medicalhistory,'pharmacy':pharmacy,'jobstatus':jobstatus,'point':point,'fromcustomerid':fromcustomerid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(customerid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("Customer/index")}';
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {
+	$('#adduser_bt').click(function(){
+		
+		$("#realname").val("");
+		$("#gradeid").val("0");
+		$("#birthday").val("");
+		$("#email").val("");
+		$("#office_tel").val("");
+		$("#mobile_tel").val("");
+		$("#provinceid").val("0");
+		$("#cityid").val("0");
+		$("#address").val("");
+		$("#customerid").val("");
+		$("#spousename").val();
+		$("#spousebirthday").val();
+		$("#occupation").val();
+		$("#hobby").val();
+		$("#medicalhistory").val();
+		$("#pharmacy").val();
+		$("#point").val();
+		
+        $('#list_user').hide();
+        $('#add_user').slideDown('slow');
+    });
+    
+    getList();
+});
+
+function goback_send(){
+    $('#add_user').hide();
+    $('#list_user').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("Customer/getCustomerInfo")}',
+		data:{"id":id},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			$("#realname").val(res.realname);			
+			$("#real_name").val(res.real_name);
+			$('input:radio[name=sex][value='+res.sex+']').attr("checked",true);
+			$("#birthday").val(res.birthday);
+			if(res.provinceid == 0){
+				$("#provinceid").val(res.provinceid);
+			}else{
+				$("<option value="+res.provinceid+" selected>"+res.province+"</option>").appendTo("#provinceid");
+			}
+			if(res.cityid == 0){
+				$("#cityid").val(res.cityid);
+			}else{
+				$("<option value="+res.cityid+">"+res.city+"</option>").appendTo("#cityid");
+			}
+			//$("#provinceid").val(res.provinceid);
+			//$("#cityid").val(res.cityid);
+			$("#email").val(res.email);
+			$("#office_tel").val(res.office_tel);
+			$("#mobile_tel").val(res.mobile_tel);
+			$("#address").val(res.address);
+			$("#gradeid").val(res.gradeid);
+		}
+	});
+	
+	$("#customerid").val(id);
+	$('#list_user').hide();
+    $('#add_user').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+	$.ajax({
+        type: "POST",
+        url: '{:U("Customer/delCustomer")}',
+		data:{"id":id},
+		dataType: "json",
+		success: function(res)
+		{
+			location.href = '{:U("Customer/index")}';
+		}
+			
+	})
+})
+
+$("#esearch").click(function(){
+	var realname = $("#srealname").val();
+	var grade = $("#sgrade").val();
+	
+	getList('{:U("Customer/getCustomerList")}',{'realname':realname,'grade':grade});
+});
+
+$("#merge").click(function(){
+	var customer_id = $("#customerid_value").val();
+	if(customer_id == "" || typeof(customer_id) == 'undefined'){
+		bootbox.alert("请选择需要合并的客户！"); return false;
+	}
+	
+	location.href = '{:U("Customer/merge")}/customerid/'+customer_id;
+});
+
+function cancel_customer(customer_id){
+	var customerid_value = $("#customerid_value").val();
+	var nstr = "";
+
+	cr_ar = customerid_value.split(",");
+
+	for(var i in cr_ar){
+		if(cr_ar[i] != ''){
+			if(cr_ar[i]*1 != customer_id*1){
+				nstr += cr_ar[i]+',';
+			}
+		}
+	}
+	//console.info(nstr);
+	$("#customerid_value").val(nstr);
+	$("#dataList input[data_id="+customer_id+"]").attr("checked",false);
+}
+
+function customer_exist(customer_id){
+	var customerid_value = $("#customerid_value").val();
+	var nstr = "";
+	var t = false;
+	
+	cr_ar = customerid_value.split(",");
+	for(var i in cr_ar){
+		if(cr_ar[i] != ''){
+			if(cr_ar[i] != customer_id){
+				t = false;
+			}else{
+				t = true;
+				break;
+			}
+		}
+	}
+	return t;
+}
+
+//监听事件
+function buildListener(){
+	$("#dataList input[id=customer_id]").unbind().click(function(){
+		var customer_id = $(this).attr("data");
+		var customerid_value = $("#customerid_value").val();
+		
+	    if($(this).prop("checked")){
+	    	var t = customer_exist(customer_id);
+			
+			if(customerid_value.split(",").length >= 3){
+				bootbox.alert("最多只能选择二个客户合并，您已选择二个！");
+				$("#dataList input[data_id="+customer_id+"]").attr("checked",false);
+				return false;
+			}
+			
+			if(t == false){
+			    customerid_value += customer_id+',';
+
+			    $("#customerid_value").val(customerid_value);
+			}
+		}else{
+			cancel_customer(customer_id);
+		}
+    });
+}
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || '{:U("Customer/getCustomerList")}'; 
+	
+	$('#dataList').html("<tr><td colspan='7'>数据加载中，请稍后！</td></tr>");
+	
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td><div class="checkbox"><label><input type="checkbox" class="colored-success" id="customer_id" data="'+v.id+'"><span class="text">&nbsp;</span></label></div></td>';
+				html += '<td>'+v.id+'</td>';
+				html += '<td>'+v.realname+'</td>';
+				html += '<td>'+v.grade_name+'</td>';
+				html += '<td>'+v.point+'</td>';
+				html += '<td>'+v.createtime+'</td>';
+				html += '<td>';
+				html += '<a href="{:U('Customer/userOrder')}/customerid/'+v.id+'/realname/'+v.realname+'" > 购买记录</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="{:U('Customer/userAddress')}/customerid/'+v.id+'/realname/'+v.realname+'" > 收货地址</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="{:U('Customer/userFollow')}/customerid/'+v.id+'/realname/'+v.realname+'" data-id="'+v.id+'" class="sugar"><i class="fa fa-edit text-primary"></i> 跟进</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="{:U('Leaguer/bloodSugar')}/customerid/'+v.id+'/realname/'+v.realname+'" data-id="'+v.id+'" class="sugar"><i class="fa fa-edit text-primary"></i> 血糖</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+			
+			buildListener();
+		}else{
+			$('#dataList').html("<tr><td colspan='7'>无查询结果！</td></tr>");
+			$('#page ul').empty();
+		}
+	})
+}
+
+//加载列表数据
+function getListC(url,data){
+	data = data || {};
+	url = url || ''; 
+	
+	$("#data_customer_list").html("<tr><td colspan='5'>数据加载中......</td></tr>");
+	
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td><label><input type="radio" name="customer_id" data='+v.id+' data-name="'+v.realname+'" class="colored-blue"><span class="text">&nbsp;</span></label></td>';
+				html += '<td>'+v.realname+'</td>';
+				html += '<td>'+v.province+'--'+v.city+'</td>';
+				html += '<td>'+v.mobile_tel+'</td>';
+				html += '<td>'+v.point+'</td>';
+				html += '</tr>';
+			})
+			$('#data_customer_list').html(html);
+			
+			$('#cpage ul').html(rs.page);
+		}else{
+			$("#data_customer_list").html("<tr><td colspan='5'>无查询结果！</td></tr>");
+			$('#cpage ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

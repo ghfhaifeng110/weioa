@@ -1,0 +1,467 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+        <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 系统管理 </small><small><i class="fa fa-angle-right"></i>  用户管理 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_user">
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">用户管理</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="adduser_bt"><i class="fa fa-plus-square-o"></i> 添加用户</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1" method="post" action="">
+                                    <label>标题：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label>编号：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label><button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>编号</th><th>姓名</th><th>职位</th><th>所属门店</th><th>加入时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+        			<div class="widget" style="display:none;" id="add_user">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加用户</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">编号：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="username" name="username" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所属门店：</label>
+	                                            <div class="col-sm-8">
+	                                                <div id="confirm_list" class="inputbox">
+													<a href="javascript:void(0)" class="right input_btn" id="open_storelist"> <i class="fa fa-briefcase"></i> </a>
+													<div class="wrap">
+														<span class="store_list">
+															
+														</span>
+														<span class="text"><input class="letter" id="storeid" type="text"></span>
+													</div>
+													</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">姓名：</label>
+	                                            <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="real_name" name="real_name">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所属职位：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="positionid" name="positionid">
+	                                                	<foreach name="position" item="p"><option vlaue="{$p.id}">{$p.name}</option></foreach>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">办公电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="office_tel" name="office_tel" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">性别：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="radio left">
+			                                            <label><input name="sex" id="sex" value="1" type="radio" class="colored-blue"><span class="text"> 男</span></label>
+			                                        </div>
+			                                        <div class="radio left">
+			                                            <label><input name="sex" id="sex" type="radio" value="2" class="colored-danger"><span class="text"> 女</span></label>
+			                                        </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">移动电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="mobile_tel" name="mobile_tel" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">生日：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="input-group">
+		                                                <input class="form-control date-picker" id="birthday" type="text" data-date-format="yyyy-mm-dd">
+		                                                <span class="input-group-addon">
+		                                                    <i class="fa fa-calendar"></i>
+		                                                </span>
+		                                            </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">邮箱：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="email" name="email" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">密码：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="pwd" name="pwd" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">头像：</label>
+	                                            <div class="col-sm-8">
+	                                                <img src="__IMG__nopic.jpg" class="noface display-inline-block vertical-align-bottom" style=" height:80px; width:auto;" />&nbsp;<div style="position:relative;width:60px;height:35px;overflow:hidden;display:inline-block;">
+									
+									<input type="file" id="upfile" name="pic"
+										style="opacity:0;filter:alpha(opacity=0);position:absolute; width: 200px;height:1000px;top:0;right:0;z-index:1;cursor:pointer;">&nbsp;
+									<button type="button" class="btn btn-primary display-inline-block vertical-align-bottom" style="position:absolute;top:0;right:0;">上传</button>
+                                              
+									<input type="hidden" name="imageurl" id="imageurl">
+									</div>
+													
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">状态：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="radio left">
+			                                            <label><input name="is_del" id="is_del" value="0" type="radio" class="colored-blue"><span class="text"> 启用</span></label>
+			                                        </div>
+			                                        <div class="radio left">
+			                                            <label><input name="is_del" type="radio" value="1" class="colored-danger"><span class="text"> 禁用</span></label>
+			                                        </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-2 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="submit" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="userid" id="userid" value="" />
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+    </div>
+</div>
+<div class="modal fade" id="modal-store" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">操作选择</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div class="scroll" style="height: 420px; ">
+                	<div class="row">
+                		<div class="col-md-12">
+                			<div><b style="padding-left:10px;">所属门店</b></div>
+							<div class="addr_list" style="height:390px;">
+								<a class="btn btn-primary btn-xs left" data="0" title="全部"><span class="text">全部</span></a>
+								<foreach name="store" item="s">
+                                <a class="btn btn-primary btn-xs left" data="{$s.id}" title="{$s.store_title}"><span class="text">{$s.store_title}</span></a>
+                                </foreach>
+							</div>
+						</div>
+                	</div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datepicker.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script src="APP_NAME/Public/js/ajaxfileupload.js"></script>
+<script>
+$('.date-picker').datepicker();
+
+$("#submit").click(function(){
+	var username = $("#username").val();
+	var real_name = $("#real_name").val();
+	var sex = $('input:radio[name=sex]:checked').val();
+	var birthday = $("#birthday").val();
+	var position_id = $("#positionid").val();
+	var email = $("#email").val();
+	var office_tel = $("#office_tel").val();
+	var mobile_tel = $("#mobile_tel").val();
+	var store_id = $("#storeid").val();
+	var is_del = $('input:radio[name=is_del]:checked').val();
+	var head_pic = $("#imageurl").val();
+	var pwd = $("#pwd").val();
+
+    var userid = $("#userid").val();
+	
+	if(username == ""){
+		alert("请输入编号，用于作为登录名"); return false;
+	}
+	if(pwd == ""){
+		alert("请输入用户登录密码"); return false;
+	}
+	
+	$.ajax({
+		url:'{:U("System/operateUser")}',
+		data:{'username':username,'real_name':real_name,'sex':sex,'birthday':birthday,'position_id':position_id,'email':email,'office_tel':office_tel,'mobile_tel':mobile_tel,'store_id':store_id,'is_del':is_del,'head_pic':head_pic,'pwd':pwd,'userid':userid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(userid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("System/user")}';
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+//上传图片
+$(document).on('change','#upfile',function(){
+	
+	$.ajaxFileUpload({
+		url:'{:U("Plugin/uploadpic")}',
+		secureuri:false,
+		fileElementId:'upfile',
+		data:{'width':80,'height':80},
+		dataType:'text',
+		type:'post',
+		success:function(data,status){
+			console.info(data+status);
+			if(data==1){
+       			 alert('请上传的图片不能大于2M');
+     		}
+			var ob = eval('('+data+')');
+
+			$('#upfile').parent().prev('img').attr('src','{$appname}'+ob.thumb);
+			$('#imageurl').val(ob.pic);
+			
+		},
+		error:function(data,status,e){
+			console.info(data);
+			//console.info(status);
+			//console.info(e);
+		}
+	})	
+})
+
+$(document).ready(function(e) {
+	$('#adduser_bt').click(function(){
+		
+		$("#username").val("");
+		$('#username').attr('disabled',"false");
+			
+		$("#real_name").val("");
+		$("#birthday").val("");
+		$("#email").val("");
+		$("#office_tel").val("");
+		$("#mobile_tel").val("");
+		$("#storeid").val("");
+		$("#storeid").show();
+		$(".store_list").html("");
+			
+		$('#upfile').parent().prev('img').attr('src','__IMG__nopic.jpg');
+		$('#imageurl').val("");
+
+		$("#pwd").val("");
+		$("#userid").val("");
+		
+        $('#list_user').hide();
+        $('#add_user').slideDown('slow');
+    });
+
+    $('#open_storelist').click(function(){
+    	$('#modal-store').modal("show");
+    });
+    
+    getList();
+});
+
+$(".addr_list a").click(function(){
+	var id = $(this).attr("data");
+	var title = $(this).attr("title");
+	//alert(id);
+	$(".store_list").html(title);
+	$("#storeid").val(id);
+	$("#storeid").hide();
+	$('#modal-store').modal("hide");
+});
+
+function goback_send(){
+    $('#add_user').hide();
+    $('#list_user').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("System/getUserInfo")}',
+		data:{"id":id},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			$("#username").val(res.username);
+			$('#username').attr('disabled',"true");
+			
+			$("#real_name").val(res.real_name);
+			$('input:radio[name=sex][value='+res.sex+']').attr("checked",true);
+			$("#birthday").val(res.birthday);
+			$("#positionid").get(0).selectedIndex = res.position_id;
+			$("#email").val(res.email);
+			$("#office_tel").val(res.office_tel);
+			$("#mobile_tel").val(res.mobile_tel);
+			$("#storeid").val(res.store_id);
+			$(".store_list").html(res.store_name);
+			$("#storeid").hide();
+			$('input:radio[name=is_del][value='+res.is_del+']').attr("checked",true);
+			
+			$('#upfile').parent().prev('img').attr('src','{$appname}'+res.head_pic);
+			$('#imageurl').val(res.head_pic);
+
+			$("#pwd").val(res.pwd);
+		}
+	});
+	
+	$("#userid").val(id);
+	$('#list_user').hide();
+    $('#add_user').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+	$.ajax({
+        type: "POST",
+        url: '{:U("System/delUser")}',
+		data:{"id":id},
+		dataType: "json",
+		success: function(res)
+		{
+			location.href = '{:U("System/user")}';
+		}
+			
+	})
+})
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || '{:U("System/getUserList")}'; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.username+'</td>';
+				html += '<td>'+v.real_name+'</td>';
+				html += '<td>'+v.position_name+'</td>';
+				html += '<td>'+v.store_name+'</td>';
+				html += '<td>'+v.create_time+'</td>';
+				html += '<td>';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a></td>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

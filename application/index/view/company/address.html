@@ -1,0 +1,365 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 客户管理 </small><small><i class="fa fa-angle-right"></i>  {$realname} 收货地址列表 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_address" <if condition="$act neq ''">style="display:none;"</if> >
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">{$realname} 收货地址列表</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="addaddress_bt"><i class="fa fa-plus-square-o"></i> 添加收货地址</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1" method="post" action="">
+                                    <label>标题：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label>编号：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label><button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>编号</th><th>姓名</th><th>座机</th><th>手机</th><th>地址</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+        			<div class="widget" style="display:none;" id="add_address">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加收货地址</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">姓名：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="realname" name="realname" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在省：</label>
+	                                            <div class="col-sm-8"> 
+	                                                <select class="form-control" id="provinceid" name="provinceid">
+	                                                	<option value="0">选择所在省</option>
+	                                                	<foreach name="province" item="p"><option vlaue="{$p.id}">{$p.name}</option></foreach>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">手机号码：</label>
+	                                            <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在市：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="cityid" name="cityid">
+	                                                	<option value="0">选择所在省</option>
+	                                                	
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">座机电话：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="tel" name="tel" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所在区/县：</label>
+	                                            <div class="col-sm-8">
+	                                                <select class="form-control" id="distid" name="distid"></select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-6 col-sm-6 col-xs-6" style="float:right">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">地址：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="address" name="address" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-2 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="button" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="addressid" id="addressid" value="" />
+	                                <input type="hidden" name="customerid" id="customerid" value="{$customerid}" />
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script src="APP_NAME/Public/js/bootstrap-datepicker.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script src="APP_NAME/Public/js/ajaxfileupload.js"></script>
+<script>
+$('.date-picker').datepicker();
+
+$("#provinceid").change(function(){
+	var parentId=$("#provinceid").get(0).selectedIndex*1+1;
+	console.info(parentId);
+	if(null!= parentId && ""!=parentId){		
+		$.ajax({
+			url:'{:U("Base/getCity")}',
+			data:{'parentid':parentId},
+			dataType:'json',
+			success:function(res){
+				console.info(res);
+				var options="<option value=''>选择所在城市</option>";
+				if(res.length>0){
+					for(var i=0;i<res.length;i++){
+						options+="<option value="+res[i].id+">"+res[i].name+"</option>";
+					}
+					$("#cityid").html(options);
+				}
+			}
+		});
+	}
+	else{
+		$("#cityid").html("");
+	}
+});
+
+$("#cityid").change(function(){
+	var parentId=$("#cityid").val();
+	console.info(parentId);
+	if(null!= parentId && ""!=parentId){		
+		$.ajax({
+			url:'{:U("Base/getCity")}',
+			data:{'parentid':parentId},
+			dataType:'json',
+			success:function(res){
+				console.info(res);
+				var options="<option value=''>选择所在区/县</option>";
+				if(res.length>0){
+					for(var i=0;i<res.length;i++){
+						options+="<option value="+res[i].id+">"+res[i].name+"</option>";
+					}
+					$("#distid").html(options);
+				}
+			}
+		});
+	}
+	else{
+		$("#distid").html("");
+	}
+});
+
+$("#submit").click(function(){
+	var realname = $("#realname").val();
+	var tel = $("#tel").val();
+	var mobile = $("#mobile").val();
+	var provinceid = $("#provinceid").get(0).selectedIndex*1+1;
+	var cityid = $("#cityid").val();
+	var distid = $("#distid").val();
+	var address = $("#address").val();
+    var customerid = $("#customerid").val();
+    
+    var addressid = $('#addressid').val();
+	
+	if(realname == ""){
+		alert("请输入客户姓名"); return false;
+	}
+	if(provinceid == "" || cityid == "" || distid == ""){
+		alert("请选择地区"); return false;
+	}
+	if(tel == "" || mobile == ""){
+		alert("座机或手机必填一个"); return false;
+	}
+	console.info(provinceid+'--'+cityid);
+	$.ajax({
+		url:'{:U("Customer/addAddress")}',
+		data:{'realname':realname,'tel':tel,'mobile':mobile,'provinceid':provinceid,'distid':distid,'cityid':cityid,'customerid':customerid,'address':address,'addressid':addressid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(customerid == ""){
+                    //goback_send();
+                }else{
+                    //location.href = '{:U("Customer/useraddress")}';
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {
+	$('#addaddress_bt').click(function(){
+		
+		$("#realname").val("");
+		$("#tel").val("");
+		$("#mobile").val("");
+		$("#provinceid").val("0");
+		$("#cityid").val("0");
+		$("#distid").val("0");
+		$("#address").val("");
+		
+        $('#list_address').hide();
+        $('#add_address').slideDown('slow');
+    });
+    
+    getList();
+});
+
+function goback_send(){
+    $('#add_address').hide();
+    $('#list_address').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+//	$.ajax({
+//		url:'{:U("Customer/getCustomerInfo")}',
+//		data:{"id":id},
+//		dataType:'json',
+//		success:function(res){
+//			console.info(res);
+//			$("#realname").val(res.realname);			
+//			$("#real_name").val(res.real_name);
+//			$('input:radio[name=sex][value='+res.sex+']').attr("checked",true);
+//			$("#birthday").val(res.birthday);
+//			if(res.provinceid == 0){
+//				$("#provinceid").val(res.provinceid);
+//			}else{
+//				$("<option value="+res.provinceid+" selected>"+res.province+"</option>").appendTo("#provinceid");
+//			}
+//			if(res.cityid == 0){
+//				$("#cityid").val(res.cityid);
+//			}else{
+//				$("<option value="+res.cityid+">"+res.city+"</option>").appendTo("#cityid");
+//			}
+//			//$("#provinceid").val(res.provinceid);
+//			//$("#cityid").val(res.cityid);
+//			$("#email").val(res.email);
+//			$("#office_tel").val(res.office_tel);
+//			$("#mobile_tel").val(res.mobile_tel);
+//			$("#address").val(res.address);
+//			$("#gradeid").val(res.gradeid);
+//		}
+//	});
+	
+	$("#addressid").val(id);
+	$('#list_address').hide();
+    $('#add_address').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+	$.ajax({
+        type: "POST",
+        url: '{:U("Customer/delAddress")}',
+		data:{"id":id},
+		dataType: "json",
+		success: function(res)
+		{
+			location.href = '{:U("Customer/useraddress")}';
+		}
+			
+	})
+})
+
+//加载列表数据
+function getList(url,data){
+	var customerid = '{$customerid}';
+	data = data || {'customerid':customerid};
+	url = url || '{:U("Customer/getCustomerAddressList")}'; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.id+'</td>';
+				html += '<td>'+v.realname+'</td>';
+				html += '<td>'+v.tel+'</td>';
+				html += '<td>'+v.mobile+'</td>';
+				html += '<td>'+v.province+v.city+v.dist+v.address+'</td>';
+				html += '<td>';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a></td>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+</script>
+</body>
+</html>

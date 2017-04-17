@@ -1,0 +1,148 @@
+<include file="public/head" />
+</head>
+
+<body>
+<include file="public/top" />
+
+<div class="main-container container-fluid">
+    <div class="page-container">
+    <include file="public/nav_left" />
+    <div class="page-content">
+    	<div class="page-header position-relative">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 办公中心 </small><small><i class="fa fa-angle-right"></i>  工作日报 </small></h4>
+            </div>
+        </div>
+        <div class="page-body">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+					<div class="widget">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" ><i class="widget-icon fa fa-bookmark blue"></i></a>
+                            <span class="widget-caption">查看日报</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">发送给：</label>
+	                                            <div class="col-sm-8">
+	                                                <label>{$work.user_name}</label>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">时间：</label>
+	                                            <div class="col-sm-8">
+                                                    <label>{$work.starttime} -- {$work.endtime}</label>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">工作计划：</label>
+	                                            <div class="col-sm-8">
+	                                                <div id="content">{$work.content|htmlspecialchars_decode}</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">工作内容：</label>
+	                                            <div class="col-sm-8">
+	                                                <div id="plan">{$work.plan|htmlspecialchars_decode}</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <notempty name="file">
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">附件：</label>
+	                                            <div class="col-sm-8">
+	                                                <table class="table table-bordered table-hover">
+					                                    <tbody>
+					                                       	<foreach name="file" item="v">
+					                                        <tr><td>{$v.file_name}</td><td>{$v.filesize}KB</td><td><a href='{$appname}{$v.filename}'><i class='fa fa-cloud-download text-primary'></i> 下载</a></td></tr>
+					                                        </foreach>
+					                                    </tbody>
+					                                </table>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                </notempty>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-3 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="button" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="location.href='{:U("Office/workLog")}'">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+                                </form>
+                            </div>
+                        </div>
+                	</div>
+                </div>
+        	</div>
+    	</div>
+    </div>
+    </div>
+</div>
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script type="javascript">
+
+$("#submit").click(function(){
+	var receive_userid 	= $("#userid_val").val();
+	var datetime 		= $("#datetime").val();
+	var content 		= $("#content").eq(0).code();
+	var plan 			= $("#plan").eq(0).code();
+	
+	var workfile = "";
+    $("#uploadfile-queue span[class=data]").each(function(){
+        workfile += $(this).html()+",";
+    });
+	console.info(workfile);
+	if(receive_userid == ""){
+		bootbox.alert("请选择接收者"); return false;
+	}
+
+	console.info(receive_userid+"---"+datetime+"----"+content+"----"+plan);
+	$.ajax({
+		url:'{:U("Office/addWorkLog")}',
+		data:{'receive_userid':receive_userid,'datetime':datetime,'content':content,'plan':plan,'workfile':workfile},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(userid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("Office/workLog")}';
+                }
+            }else{
+                bootbox.alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+</script>
+</body>
+</html>

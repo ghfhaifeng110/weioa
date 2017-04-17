@@ -1,0 +1,541 @@
+<include file="public/head" />
+<link href="APP_NAME/Public/css/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="APP_NAME/Public/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<style type="text/css">
+.addr_list a{ margin:5px 4px;}
+</style>
+</head>
+
+<body>
+
+    	<div class="page-header" style="top:46px;">
+            <div class="header-title">
+                <h4><i class="fa fa-home"></i> 首页 <small><i class="fa fa-angle-right"></i> 任务管理 </small></h4>
+            </div>
+        </div>
+        <div class="page-body" style="margin-top:80px;">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                	<div class="widget" id="list_task">
+                        <div class="widget-header bordered-bottom bordered-blue">
+                            <span class="widget-caption">任务管理</span>
+                            <div class="widget-buttons"><a href="javascript:void(0)" data-toggle="maximize" id="addtask_bt"><i class="fa fa-plus-square-o"></i> 添加任务</a></div>
+                        </div>
+                        <div class="widget-body no-padding" style="display: block;">
+                            <div role="grid" id="searchable_wrapper" class="dataTables_wrapper form-inline">
+                                <div class="well">
+                                    <form name="form1" method="post" action="">
+                                    <label>标题：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label>编号：<input type="search" class="form-control input-sm" aria-controls="searchable"></label>
+                                    <label><button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> 搜索</button></label>
+                                    </form>
+                                </div>
+                                <div class="dataTables_length" id="searchable_length">
+                                    <label><select name="searchable_length" aria-controls="searchable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="-1">All</option></select>
+                                    </label>
+                                </div>
+								<div class="table-scrollable">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead class="flip-content bordered-blue">
+                                        <tr><th>任务名称</th><th>类型</th><th>门店</th><th>部门</th><th>开始时间</th><th>结束时间</th><th>积分</th><th>添加时间</th><th>操作</th></tr>
+                                    </thead>
+                                    <tbody id="dataList"></tbody>
+                                </table>
+                                </div>
+                                <div class="row DTTTFooter">
+                                    <div class="dataTables_paginate paging_bootstrap" id="page">
+                                        <ul class="pagination">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                	</div>
+        			<div class="widget" style="display:none;" id="add_task">
+                		<div class="widget-header bordered-bottom bordered-blue">
+                            <a href="javascript:void(0)" onclick="goback_send()"><i class="widget-icon fa fa-mail-reply blue"></i></a>
+                            <span class="widget-caption">添加任务</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="horizontal-form">
+                                <form role="form" id="form_data" class="form-horizontal">
+                                    <input type="hidden" name="receiver" id="receiver" value="">
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">类型：</label>
+	                                            <div class="col-sm-8">
+	                                                <select id="type" class="form-control"><option value="1">每日任务</option><option value="2">部门任务</option><option value="3">临时任务</option></select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">标题：</label>
+	                                            <div class="col-sm-8">
+                                                    <input type="text" class="form-control" id="name" name="name">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row" id="store_div" style="display:none;">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所属门店：</label>
+	                                            <div class="col-sm-8">
+	                                                <span class="input-icon icon-right inverted"><input type="text" class="form-control" data="" id="store_list"><i class="fa fa-ellipsis-h bg-blue" id="sel_store"></i></span><input type="hidden" name="storeid" id="storeid" value=""  /> 
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row" id="position_div" style="display:none;">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">所属部门：</label>
+	                                            <div class="col-sm-8">
+	                                                <span class="input-icon icon-right inverted"><input type="text" class="form-control" data="" id="position_list"><i class="fa fa-ellipsis-h bg-blue" id="sel_position"></i></span><input type="hidden" name="positionid" id="positionid" value=""  />
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">积分：</label>
+	                                            <div class="col-sm-8">
+	                                                <input type="text" class="form-control" id="point" name="point" placeholder="">
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row" id="begintime_div" style="display:none;">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">开始时间：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="input-group">
+                                                		<input class="form-control date-picker" id="begintime" name="begintime" type="text">
+                                                		<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            		</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row" id="endtime_div" style="display:none;">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">结束时间：</label>
+	                                            <div class="col-sm-8">
+	                                                <div class="input-group">
+                                                		<input class="form-control date-picker" id="endtime" name="endtime" type="text">
+                                                		<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            		</div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                    <div class="row">
+	                                    <div class="col-lg-12 col-sm-12 col-xs-12">
+	                                    	<div class="form-group">
+	                                            <label class="col-sm-3 control-label no-padding-right">任务内容：</label>
+	                                            <div class="col-sm-8">
+	                                                <div id="summernote"></div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </div>
+	                                <div class="row">
+                                    	<div class="form-group">
+	                                        <label class="col-sm-3 control-label no-padding-right"></label>
+	                                        <div class="col-sm-9">
+	                                            <button type="button" name="submit" id="submit" class="btn btn-primary mr10">确定</button><button type="button" name="button" class="btn btn-danger" onclick="goback_send()">取消</button>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <input type="hidden" name="taskid" id="taskid" value="" />
+                                </form>
+                            </div>
+                        
+                        </div>
+                	</div>
+            	    
+                </div>
+        	</div>
+    	</div>
+
+<div class="modal fade" id="modal-store" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">操作选择</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div class="scroll" style="height: 420px; ">
+                	<div class="row">
+                		<div class="col-md-12">
+                			<div><b style="padding-left:10px;">所属门店</b></div>
+							<div class="addr_list" id="storelist" style="height:390px;">
+								<a class="btn btn-primary btn-xs left" data="0" title="全部"><label><input class="checkbox" type="checkbox" name="store_check" value="0" title="全部" ><span class="text">全部</span></label></a>
+								<foreach name="store" item="s">
+                                <a class="btn btn-primary btn-xs left" data="{$s.id}" title="{$s.store_title}"><label><input class="checkbox" name="store_check" value="{$s.id}" title="{$s.store_title}" type="checkbox"><span class="text">{$s.store_title}</span></label></a>
+                                </foreach>
+							</div>
+						</div>
+                	</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            	<button type="button" id="store_button" class="btn btn-primary">确定</button>
+            </div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal-position" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">操作选择</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div class="scroll" style="height: 220px; ">
+                	<div class="row">
+                		<div class="col-md-12">
+                			<div><b style="padding-left:10px;">所属部门</b></div>
+							<div class="addr_list" id="positionlist" style="height:200px;">
+								<a class="btn btn-primary btn-xs left" data="0" title="全部"><label><input class="checkbox" type="checkbox" id="position_check" name="position_check" value="0" title="全部" ><span class="text">全部</span></label></a>
+								<foreach name="position" item="p">
+                                <a class="btn btn-primary btn-xs left" data="{$p.id}" title="{$p.name}"><label><input class="checkbox" id="position_check" name="position_check" name="position_check" type="checkbox" value="{$p.id}" title="{$p.name}"><span class="text">{$p.name}</span></label></a>
+                                </foreach>
+							</div>
+						</div>
+                	</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            	<button type="button" id="position_button" class="btn btn-primary">确定</button>
+            </div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+        	<div class="modal-header">
+            	<button type="button" class="btn btn-default pull-right" data-dismiss="modal" aria-hidden="true" style="margin-left:10px;">关 闭</button>
+                <h4 class="modal-title" id="myModalLabel">内容显示</h4> 
+            </div>
+            <div class="modal-body menu-list">
+            	<div class="scroll" style="height: 220px; ">
+                	<div class="row">
+                		<div class="col-md-12" id="task_info">
+                			
+						</div>
+                	</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            	<button type="button" id="position_button" class="btn btn-primary">确定</button>
+            </div>
+		</div>
+	</div>
+</div>
+
+
+<script src="APP_NAME/Public/js/beyond.min.js"></script>
+<script type="text/javascript" src="APP_NAME/Public/js/bootstrap-datetimepicker.min.js"></script>
+<script src="APP_NAME/Public/js/summernote.js"></script>
+<!--弹出窗口JS-->
+<script src="APP_NAME/Public/js/bootbox.js"></script>
+<script>
+$( "#begintime" ).datetimepicker({ timeFormat: "HH:mm:ss",dateFormat: "yy-mm-dd" });
+$( "#endtime" ).datetimepicker({ timeFormat: "HH:mm:ss",dateFormat: "yy-mm-dd" });
+
+$('#summernote').summernote({ height: 300 });
+
+$("#sel_store").click(function(){
+	$('#modal-store').modal("show");
+});
+
+$("#sel_position").click(function(){
+	$('#modal-position').modal("show");
+});
+
+$("#type").change(function(){
+	var type = $(this).val();
+	console.info(type);
+	
+	switch(type){
+		case '1':
+			$("#store_div").hide();
+			$("#position_div").hide();
+			$("#begintime_div").hide();
+			$("#endtime_div").hide();
+		break;
+		case '2':
+			$("#store_div").show();
+			$("#position_div").show();
+			$("#begintime_div").hide();
+			$("#endtime_div").hide();
+		break;
+		case '3':
+			$("#store_div").show();
+			$("#position_div").show();
+			$("#begintime_div").show();
+			$("#endtime_div").show();
+		break;
+	}
+});
+
+$("#submit").click(function(){
+	var positionid = $("#positionid").val();
+	var point = $("#point").val();
+	var begintime = $("#begintime").val();
+	var endtime = $("#endtime").val();
+	var storeid = $("#storeid").val();
+	var remark = $('#summernote').code();
+	var name = $("#name").val();
+	var type = $("#type").val();
+
+    var taskid = $("#taskid").val();
+	
+	if(type == '2' && (storeid == "" || positionid == "")){
+		alert("请选择所属门店和部门"); return false;
+	}
+	if(type == '3' && (storeid == "" || positionid == "")){
+		alert("请选择所属门店和部门"); return false;
+	}
+	if(type == '3' && (begintime == "" || endtime == "")){
+		alert("请选择开始和结束时间"); return false;
+	}
+	
+	$.ajax({
+		url:'{:U("Office/operateTask")}',
+		data:{'name':name,'type':type,'storeid':storeid,'positionid':positionid,'point':point,'begintime':begintime,'endtime':endtime,'remark':remark,'taskid':taskid},
+		type:'post',
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+            if(res.errcode == 0){
+                if(taskid == ""){
+                    goback_send();
+                }else{
+                    location.href = '{:U("Office/index")}';
+                }
+            }else{
+                alert(res.errmsg); return false;
+            }
+		}
+	});
+});
+
+$(document).ready(function(e) {
+	$('#addtask_bt').click(function(){
+		
+		$("#username").val("");
+		$('#username').attr('disabled',"false");
+			
+		$("#real_name").val("");
+		$("#birthday").val("");
+		$("#email").val("");
+		$("#office_tel").val("");
+		$("#mobile_tel").val("");
+		$("#storeid").val("");
+		$("#storeid").show();
+		$(".store_list").html("");
+			
+		$('#upfile').parent().prev('img').attr('src','__IMG__nopic.jpg');
+		$('#imageurl').val("");
+
+		$("#pwd").val("");
+		$("#userid").val("");
+		
+        $('#list_task').hide();
+        $('#add_task').slideDown('slow');
+    });
+    
+    getList();
+});
+
+$("#store_button").click(function(){
+	var storeid = "";
+	var storetitle = "";
+	
+	$("#storelist input[name=store_check]").each(function(i,item){
+		if($(this).prop("checked")){
+			if($(this).val() == 0 ||$(this).val() == '0'){
+				storeid = 0;
+				storetitle = $(this).attr("title");
+				return false;
+			}else{
+				storeid += $(this).val()+",";
+				storetitle += $(this).attr("title")+",";
+			}
+		}
+	});
+	$("#store_list").val(storetitle);
+	$("#storeid").val(storeid);
+
+	$('#modal-store').modal("hide");
+});
+
+$("#position_button").click(function(){
+	var positionid = "";
+	var positiontitle = "";
+	
+	$("#positionlist input[name=position_check]").each(function(i,item){
+		if($(this).prop("checked")){
+			if($(this).val() == 0 ||$(this).val() == '0'){
+				positionid = 0;
+				positiontitle = $(this).attr("title");
+				return false;
+			}else{
+				positionid += $(this).val()+",";
+				positiontitle += $(this).attr("title")+",";
+			}
+		}
+	});
+	$("#position_list").val(positiontitle);
+	$("#positionid").val(positionid);
+
+	$('#modal-position').modal("hide");
+});
+
+function goback_send(){
+    $('#add_task').hide();
+    $('#list_task').slideDown('slow');
+}
+
+$('#dataList').on('click','.edit',function(){
+	var id = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("Office/getTaskInfo")}',
+		data:{"id":id},
+		dataType:'json',
+		success:function(res){
+			console.info(res);
+			$("#username").val(res.username);
+			$('#username').attr('disabled',"true");
+			
+			$("#real_name").val(res.real_name);
+			$('input:radio[name=sex][value='+res.sex+']').attr("checked",true);
+			$("#birthday").val(res.birthday);
+			$("#positionid").get(0).selectedIndex = res.position_id;
+			$("#email").val(res.email);
+			$("#office_tel").val(res.office_tel);
+			$("#mobile_tel").val(res.mobile_tel);
+			$("#storeid").val(res.store_id);
+			$(".store_list").html(res.store_name);
+			$("#storeid").hide();
+			$('input:radio[name=is_del][value='+res.is_del+']').attr("checked",true);
+			
+			$('#upfile').parent().prev('img').attr('src','{$appname}'+res.head_pic);
+			$('#imageurl').val(res.head_pic);
+
+			$("#pwd").val(res.pwd);
+		}
+	});
+	
+	$("#userid").val(id);
+	$('#list_task').hide();
+    $('#add_task').slideDown('slow');
+})
+
+$('#dataList').on('click','.del',function(){
+	var msg = "您真的确定要删除吗？\n\n请确认！"; 
+	if (confirm(msg)==false)
+	{ 
+		return false; 
+	}
+	var id = $(this).attr('data-id');
+	$('#result').html("数据处理中...");
+	$.ajax({
+        type: "POST",
+        url: '{:U("Office/delTask")}',
+		data:{"id":id},
+		dataType: "json",
+		success: function(res)
+		{
+			location.href = '{:U("Office/index")}';
+		}
+			
+	})
+})
+
+$("#dataList").on('click','.info',function(){
+	var taskid = $(this).attr("data-id");
+	
+	$.ajax({
+		url:'{:U("Office/getTaskInfo")}',
+		data:{'taskid':taskid},
+		success:function(res){
+			if(res){
+				$("#task_info").html(res);
+				$("#modal-info").modal("show");
+			}
+		}
+	});
+});
+
+//加载列表数据
+function getList(url,data){
+	data = data || {};
+	url = url || '{:U("Office/getTaskList")}'; 
+	$.get(url,data,function(rs){
+		console.info(rs);
+		if( rs.count>0){
+			var html = '';
+			$.each(rs.list,function(k,v){
+				html += '<tr>';
+				html += '<td>'+v.name+'</td>';
+				html += '<td>'+v.type+'</td>';
+				html += '<td>'+v.store_name+'</td>';
+				html += '<td>'+v.position_name+'</td>';
+				html += '<td>'+v.begintime+'</td>';
+				html += '<td>'+v.endtime+'</td>';
+				html += '<td>'+v.point+'</td>';
+				html += '<td>'+v.createtime+'</td>';
+				html += '<td>';
+				html += '<a href="javascript:void(0)" onclick="receiveTask('+v.id+')" data-id="'+v.id+'" class="receive"><i class="fa fa-tasks text-primary"></i> 领取</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="{:U("Office/userList")}/taskid/'+v.id+'/taskname/'+v.name+'" data-id="'+v.id+'" class="user"><i class="fa fa-user text-primary"></i> 人员列表</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="info"><i class="fa fa-info text-primary"></i> 任务内容</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="edit"><i class="fa fa-edit text-primary"></i> 编辑</a>&nbsp;&nbsp;&nbsp;';
+				html += '<a href="javascript:void(0)" data-id="'+v.id+'" class="del"><i class="fa fa-trash-o text-primary"></i> 删除</a></td>';
+				html += '</td>';
+				html += '</tr>';
+			})
+			$('#dataList').html(html);
+			$('#page ul').html(rs.page);
+		}else{
+			$('#dataList').empty();
+			$('#page ul').empty();
+		}
+	})
+}
+
+/*
+ *领取任务
+ * */
+function receiveTask(taskid){
+	$.ajax({
+		url:'{:U("Office/receiveTask")}',
+		data:{'taskid':taskid},
+		dataType:'json',
+		success:function(res){
+			if(res.errcode == 0){
+				bootbox.alert(res.errmsg);
+			}else{
+				bootbox.alert(res.errmsg); return false;
+			}
+		}
+	});
+}
+</script>
+</body>
+</html>
